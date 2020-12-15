@@ -18,15 +18,42 @@
           label="Plan:"
           label-for="input-1"
         >
-
           <vue-type-ahead
             class="mb-4"
             v-model="query"
             :data="places"
+            :serializer="item => item.name"
             @hit="selectedPlace = $event"
             placeholder="Escribe o busca el nombre del lugar, dirección o coordenadas"
+            @input="searchPlaces"
+            :showAllResults="true"
+            :maxMatches="20"
+            :disableSort="true"
           />
-
+          <br/>
+          <br/>
+          <br/>
+          <br/>
+          <br/>
+          <br/>
+          <br/>
+          <br/>
+          <br/>
+          <br/>
+          <br/>
+          <br/>
+          <br/>
+          <br/>
+          <br/>
+          <br/>
+          <br/>
+          <br/>
+          <br/>
+          <br/>
+          <br/>
+          <br/>
+          <br/>
+          <br/>
         </b-form-group>
 
       </b-form>
@@ -35,14 +62,14 @@
 </template>
 
 <script>
-  import PlanCard from '@/components/PlanCard.vue'
-  import VueBootstrapTypeahead from 'vue-bootstrap-typeahead'
-  import axios from 'axios'
+  import PlanCard from '@/components/PlanCard.vue';
+  import VueTypeaheadBootstrap from 'vue-typeahead-bootstrap';
+  import {_} from 'vue-underscore';
 
   export default {
     components: {
       'plan-card': PlanCard,
-      'vue-type-ahead': VueBootstrapTypeahead
+      'vue-type-ahead': VueTypeaheadBootstrap
     },
     data() {
       return {
@@ -51,19 +78,17 @@
         places: []
       }
     },
-    watch: {
-      // When the query value changes, fetch new results from
-      // the API - TODO this action should be debounced
-      query(newQuery) {
-        console.log(newQuery)
-        /*axios.get(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${newQuery}&key=AIzaSyAyRE60ZUO-zoDDZCDIMFwDgi7CRbIDDMo`)
-          .then((res) => {
-            console.log("RES", res)
-            this.places = res.data.items
-          })*/
-      }
-    },
     methods: {
+      searchPlaces: _.debounce(function(){
+        // in practice this action should be debounced
+        fetch(`https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/textsearch/json?query=${this.query}&key=AIzaSyAyRE60ZUO-zoDDZCDIMFwDgi7CRbIDDMo`)
+          .then(response => {
+            return response.json();
+          })
+          .then(data => {
+            this.places = data.results
+          })
+      }, 500),
       onSubmit: () => {
 
       },
