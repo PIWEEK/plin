@@ -16,6 +16,13 @@ class DaySerializer(serializers.ModelSerializer):
         fields = ("name", "order", "plans")
 
 
+class LightTripSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Trip
+        fields = ("duration", "title", "url_picture", "members")
+
+
 class TripSerializer(serializers.ModelSerializer):
     days = DaySerializer(required=False, many=True)
     wishlist = serializers.SerializerMethodField()
