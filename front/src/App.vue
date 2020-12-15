@@ -2,7 +2,10 @@
   <div id="app">
     <div>
       <b-navbar toggleable="lg" type="dark" variant="info">
-        <b-navbar-brand href="#">Plin</b-navbar-brand>
+        <b-navbar-brand href="#">
+        <b-img src="/logo.png" alt="Plin" style="width: 2rem; margin-right: 1rem"></b-img>
+        Plin
+        </b-navbar-brand>
 
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
