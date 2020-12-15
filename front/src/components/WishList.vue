@@ -4,12 +4,11 @@
       + Nuevo plan
     </b-button>
     <plan-card
-      :name="plan.name"
-      :image="plan.image"
-      :id="plan.id"
+      :plan="plan"
       v-for="plan in $store.state.currentTrip.wishlist"
       :key="plan.id">
     </plan-card>
+
 
     <b-modal id="modal-new-plan" centered  size="xl" scrollable title="TODO: TITLE" cancel-disabled ok-disabled>
       <b-form @submit="onSubmit" @reset="onReset">

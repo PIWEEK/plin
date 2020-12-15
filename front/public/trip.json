@@ -1,10 +1,10 @@
 {
     "id": 1,
     "name": "Train for Europe",
-    "image": "https://picsum.photos/id/155/200/200",
+    "image": "https://picsum.photos/id/155/1000/150",
     "start": null,
     "end": null,
-    "duration": 4,
+    "duration": 5,
     "days":[
         {
             "id": 501,
@@ -18,18 +18,42 @@
                 {
                     "id": 1002,
                     "name": "Tarde de compras",
-                    "image": "https://images.unsplash.com/photo-1472851294608-062f824d29cc?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+                    "image": "https://images.unsplash.com/photo-1472851294608-062f824d29cc?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+                    "position": 0
+                },
+                {
+                    "id": 1003,
+                    "name": "Museo del Prado",
+                    "image": "https://picsum.photos/id/360/200/200",
+                    "price": "23.70€",
+                    "duration": "2,5 - 4,5h",
+                    "position": 1
                 }
             ]
         },
         {
             "id": 503,
             "name": "Day 3",
-            "plans": []
+            "plans": [
+                {
+                    "id": 1004,
+                    "name": "Museo del Prado",
+                    "image": "https://picsum.photos/id/360/200/200",
+                    "price": "23.70€",
+                    "duration": "2,5 - 4,5h",
+                    "position": 0
+                }
+
+            ]
         },
         {
             "id": 504,
             "name": "Day 4",
+            "plans": []
+        },
+        {
+            "id": 505,
+            "name": "Day 5",
             "plans": []
         }
     ],
@@ -37,7 +61,10 @@
         {
             "id": 1001,
             "name": "Museo del Prado",
-            "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/El_jard%C3%ADn_de_las_Delicias%2C_de_El_Bosco.jpg/320px-El_jard%C3%ADn_de_las_Delicias%2C_de_El_Bosco.jpg"
+            "image": "https://picsum.photos/id/360/200/200",
+            "price": "23.70€",
+            "duration": "2,5 - 4,5h",
+            "position": 0
         }
     ]
 }

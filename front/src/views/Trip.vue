@@ -1,14 +1,17 @@
 <template>
 <b-container>
-  <b-row>
-    {{this.$store.state.currentTrip.name}}
-  </b-row>
+
+<div class="m-3">
+    <div class="d-flex align-items-center header" :style="headerImg">
+        <div class="w-100"><h1>{{this.$store.state.currentTrip.name}}</h1></div>
+    </div>
+</div>
 
   <b-row class="text-center">
-    <b-col style="border: 1px solid green">
+    <b-col cols="3">      
       <wishlist></wishlist>
     </b-col>
-    <b-col style="border: 1px solid green" cols="10">
+    <b-col cols="9">
     <week></week>
     </b-col>
   </b-row>
@@ -36,6 +39,24 @@ export default {
     async getRecords() {
       await this.$store.dispatch("fetchTrip");
     }
-  }
+  },
+  computed: {
+      headerImg () {
+        return "background-image: url('" + this.$store.state.currentTrip.image + "')";
+      }
+    },
 };
 </script>
+
+<style lang="scss" scoped>
+
+.header {
+  color: white;  
+  background-color: #cccccc; /* Used if the image is unavailable */
+  height: 8rem; /* You must set a specified height */
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat; /* Do not repeat the image */
+  background-size: cover; /* Resize the background image to cover the entire container */
+}
+
+</style>
