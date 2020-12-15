@@ -19,7 +19,11 @@ export default {
   name: "Home",
   components: {
     'trips': Trips
-
-  }
+  },
+  async mounted() {
+    if (this.$store.state.currentUser.token === undefined){
+      this.$router.push("/");
+    }
+  },
 };
 </script>

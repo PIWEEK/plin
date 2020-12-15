@@ -33,8 +33,10 @@ export default {
     ...mapGetters(["getTrips"])
   },
   methods: {
-    async getRecords() {
-      await this.$store.dispatch("fetchTripsList");
+    async getRecords() {      
+      if (this.$store.state.currentUser.token !== undefined){
+        await this.$store.dispatch("fetchTripsList");
+      }
     }
   }
 };

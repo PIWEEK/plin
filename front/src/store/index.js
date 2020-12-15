@@ -9,7 +9,8 @@ export default new Vuex.Store({
     displayTrips: [],
     rows: 0,
     showSpinner: false,
-    currentTrip: {}
+    currentTrip: {},
+    currentUser: {"name": null}
   },
   mutations: {
     SET_TRIPS(state, trips) {
@@ -17,20 +18,30 @@ export default new Vuex.Store({
     },
     SET_CURRENTTRIP(state, currentTrip) {
       state.currentTrip = currentTrip;
+    },
+    SET_CURRENTUSER(state, currentUser) {
+      state.currentUser = currentUser;
     }
   },
   actions: {
     async fetchData(context, url) {
       return new Promise(resolve => {
         setTimeout(async () => {
-          const res = await fetch(url);
+          const res = await fetch(url, {
+            headers: {
+              'Authorization': 'JWT '+ context.state.currentUser.token,
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            }
+          });
           const val = await res.json();
           resolve(val);
         }, 1000);
       });
     },
     async fetchTripsList({ dispatch, commit }) {
-      const myJson = await dispatch("fetchData", "trips.json");
+      //const myJson = await dispatch("fetchData", "trips.json");
+      const myJson = await dispatch("fetchData", "http://localhost:8000/api/trips/");
       commit("SET_TRIPS", myJson);
       return myJson;
     },
@@ -38,7 +49,27 @@ export default new Vuex.Store({
       const myJson = await dispatch("fetchData", "trip.json");
       commit("SET_CURRENTTRIP", myJson);
       return myJson;
+    },
+    async login(context, body) {
+      return new Promise(resolve => {
+        setTimeout(async () => {
+          const res = await fetch(
+            "http://localhost:8000/api/token/", 
+            {
+              method: 'POST',
+              headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              },
+              body: body
+            });
+          const val = await res.json();
+          resolve(val);
+        }, 1000);
+      });
     }
+    
+
   },
   getters: {
     getTrips(state) {
