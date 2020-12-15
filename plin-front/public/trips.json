@@ -1,0 +1,17 @@
+[
+        {
+            "id": 1,
+            "name": "Train for Europe",
+            "image": "https://picsum.photos/id/155/200/200"
+        },
+        {
+            "id": 2,
+            "name": "Mountain treking",
+            "image": "https://picsum.photos/id/1039/200/200"
+        },
+        {
+            "id": 3,
+            "name": "Castles",
+            "image": "https://picsum.photos/id/1040/200/200"
+        }
+]
