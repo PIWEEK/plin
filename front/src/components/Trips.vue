@@ -4,6 +4,9 @@
         <trip-card
           :name="trip.name"
           :image="trip.image"
+          :start="trip.start"
+          :end="trip.end"
+          :duration="trip.duration"
           :id="trip.id"
           v-for="trip in getTrips"
           :key="trip.id"
