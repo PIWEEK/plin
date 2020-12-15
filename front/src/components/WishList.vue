@@ -9,15 +9,15 @@
       :key="plan.id">
     </plan-card>
 
-
-    <b-modal id="modal-new-plan" centered  size="xl" scrollable title="TODO: TITLE" cancel-disabled ok-disabled>
+    <b-modal id="modal-new-plan" centered  size="lg" scrollable title="Nuevo plan" hide-footer>
       <b-form @submit="onSubmit" @reset="onReset">
         <b-form-group
-          id="input-group-1"
-          label="Plan:"
-          label-for="input-1"
+          id="input-group-plan"
+          label="Plan"
+          label-for="input-address"
         >
           <vue-type-ahead
+            id="input-address"
             class="mb-4"
             v-model="query"
             :data="places"
@@ -29,31 +29,68 @@
             :maxMatches="20"
             :disableSort="true"
           />
-          <br/>
-          <br/>
-          <br/>
-          <br/>
-          <br/>
-          <br/>
-          <br/>
-          <br/>
-          <br/>
-          <br/>
-          <br/>
-          <br/>
-          <br/>
-          <br/>
-          <br/>
-          <br/>
-          <br/>
-          <br/>
-          <br/>
-          <br/>
-          <br/>
-          <br/>
-          <br/>
-          <br/>
         </b-form-group>
+
+        <b-form-group
+          id="input-group-address"
+          label="Dirección"
+          label-for="input-address"
+        >
+          <b-form-input
+            id="input-address"
+            v-model="address"
+            placeholder="Escribe la dirección"/>
+        </b-form-group>
+        <b-row>
+          <b-col>
+            <b-form-group
+              id="input-group-address"
+              label="Precio"
+              label-for="input-price"
+            >
+              <b-row>
+                <b-col>
+                  <b-form-input
+                    id="input-min-price"
+                    v-model="minPrice"
+                    placeholder="Mínimo"/>
+                </b-col>
+                <b-col>
+                  <b-form-input
+                    id="input-max-price"
+                    v-model="maxPrice"
+                    placeholder="Máximo"/>
+                  </b-col>
+              </b-row>
+            </b-form-group>
+          </b-col>
+
+          <b-col>
+            <b-form-group
+              id="input-group-duration"
+              label="Duración"
+              label-for="input-duration"
+            >
+              <b-form-input
+                id="input-duration"
+                v-model="duration"
+                placeholder="¿Cuánto durará el plan?"/>
+            </b-form-group>
+          </b-col>
+        </b-row>
+        <b-form-group
+          id="input-group-comments"
+          label="Comentarios"
+          label-for="input-comments"
+        >
+          <b-form-textarea
+            id="input-address"
+            v-model="address"
+            rows="3"
+            placeholder="¿Cuándo es mejor hacer este plan?, ¿hay que acordarse de llevar algo?, 
+¡Cualquier cosa que te sirva para organizarte mejor! :)"/>
+        </b-form-group>
+      <b-button class="mt-3" block @click="$bvModal.hide('bv-modal-example')">Crear plan</b-button>
 
       </b-form>
     </b-modal>
@@ -74,6 +111,11 @@
       return {
         query: '',
         selectedPlace: null,
+        address: '',
+        minPrice: null,
+        maxPrice: null,
+        duration: null,
+        comments: null,
         places: []
       }
     },
