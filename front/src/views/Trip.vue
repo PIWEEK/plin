@@ -3,7 +3,7 @@
   <b-row>
     {{this.$store.state.currentTrip.name}}
   </b-row>
-  
+
   <b-row class="text-center">
     <b-col style="border: 1px solid green">
       <wishlist></wishlist>
@@ -29,7 +29,7 @@ export default {
     'week': Week
   },
   data() {
-    return {      
+    return {
     };
   },
   methods: {

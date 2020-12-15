@@ -17,12 +17,12 @@ export default new Vuex.Store({
     },
     SET_CURRENTTRIP(state, currentTrip) {
       state.currentTrip = currentTrip;
-    }  
+    }
   },
   actions: {
     async fetchData(context, url) {
       return new Promise(resolve => {
-        setTimeout(async () => {          
+        setTimeout(async () => {
           const res = await fetch(url);
           const val = await res.json();
           resolve(val);
@@ -31,12 +31,12 @@ export default new Vuex.Store({
     },
     async fetchTripsList({ dispatch, commit }) {
       const myJson = await dispatch("fetchData", "trips.json");
-      commit("SET_TRIPS", myJson);      
+      commit("SET_TRIPS", myJson);
       return myJson;
     },
     async fetchTrip({ dispatch, commit }) {
       const myJson = await dispatch("fetchData", "trip.json");
-      commit("SET_CURRENTTRIP", myJson);      
+      commit("SET_CURRENTTRIP", myJson);
       return myJson;
     }
   },
