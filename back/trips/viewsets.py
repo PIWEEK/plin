@@ -8,7 +8,6 @@ from trips.models import Trip
 
 
 class TripViewSet(viewsets.ModelViewSet):
-    queryset = Trip.objects.all()
     serializer_class = TripSerializer
 
     def get_serializer_class(self):
@@ -16,3 +15,6 @@ class TripViewSet(viewsets.ModelViewSet):
             return LightTripSerializer
 
         return TripSerializer
+
+    def get_queryset(self):
+        return self.request.user.trips.all()
