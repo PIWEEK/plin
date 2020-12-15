@@ -1,5 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.dispatch import receiver
+
 
 
 class Trip(models.Model):
@@ -37,3 +39,20 @@ class Plan(models.Model):
 
     def __str__(self):
         return self.name
+
+
+@receiver(models.signals.post_save, sender=Trip)
+def add_days_on_trip_creation(sender, instance, created, **kwargs):
+    if created:
+        for i in range(instance.duration):
+            Day.objects.create(
+                order=i+1,
+                trip=instance
+            )
+
+
+@receiver(models.signals.post_delete, sender=Day)
+def move_plans_on_day_deletion(sender, instance, **kwargs):
+    for plan in instance.plans.all():
+        plan.day = None
+        plan.save()

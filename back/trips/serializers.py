@@ -6,21 +6,21 @@ from trips.models import Trip, Day, Plan
 class PlanSerializer(serializers.ModelSerializer):
     class Meta:
         model = Plan
-        fields = ("name", "day")
+        fields = ("id", "name", "day")
 
 
 class DaySerializer(serializers.ModelSerializer):
     plans = PlanSerializer(required=False, many=True)
     class Meta:
         model = Day
-        fields = ("name", "order", "plans")
+        fields = ("id", "order", "plans")
 
 
 class LightTripSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Trip
-        fields = ("duration", "title", "url_picture", "members")
+        fields = ("id", "duration", "title", "url_picture", "members")
 
 
 class TripSerializer(serializers.ModelSerializer):
@@ -29,7 +29,7 @@ class TripSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Trip
-        fields = ("duration", "title", "url_picture", "members", "days", "wishlist")
+        fields = ("id", "duration", "title", "url_picture", "members", "days", "wishlist")
 
     def get_wishlist(self, obj):
         wishlist = Plan.objects.filter(trip=obj, day__isnull=True).all()
