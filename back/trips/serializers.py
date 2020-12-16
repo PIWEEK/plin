@@ -29,7 +29,7 @@ class TripSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Trip
-        fields = ("id", "duration", "title", "url_picture", "members", "days", "wishlist")
+        fields = '__all__'
 
     def get_wishlist(self, obj):
         wishlist = Plan.objects.filter(trip=obj, day__isnull=True)

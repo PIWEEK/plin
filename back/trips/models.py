@@ -36,14 +36,18 @@ class Day(models.Model):
 
 class Plan(models.Model):
     address = models.CharField(max_length=100, blank=True, null=True)
+    comments = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     day = models.ForeignKey(Day, related_name="plans", blank=True, null=True, on_delete=models.SET_NULL)
-    duration = models.IntegerField()
+    duration = models.FloatField()
     google_id = models.CharField(max_length=100, blank=True, null=True)
     name = models.CharField(max_length=100, blank=False, null=False)
-    opening_hours = models.CharField(max_length=100, blank=True, null=True)
+    price_min = models.CharField(max_length=100, blank=True, null=True)
+    price_max = models.CharField(max_length=100, blank=True, null=True)
+    opening_hours = models.CharField(max_length=500, blank=True, null=True)
     order = models.IntegerField(blank=True, null=True)
     popular_times = models.URLField(blank=True, null=True)
+    telephone = models.CharField(max_length=100, blank=True, null=True)
     trip = models.ForeignKey(Trip, related_name="plans", on_delete=models.CASCADE)
     url_picture = models.URLField(blank=True, null=True)
 
