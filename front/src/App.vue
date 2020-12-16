@@ -24,7 +24,7 @@
                 <em>{{ username }}</em>
               </template>
               <b-dropdown-item href="#">Profile</b-dropdown-item>
-              <b-dropdown-item href="#">Sign Out</b-dropdown-item>
+              <b-dropdown-item href="#" v-on:click="singOut">Salir</b-dropdown-item>
             </b-nav-item-dropdown>
           </b-navbar-nav>
         </b-collapse>
@@ -50,6 +50,14 @@
         showSpinner(){
           return this.$store.state.showSpinner;
         },
+      },
+      methods: {
+        singOut(){
+          this.$store.commit("SET_TRIPS", {});
+          this.$store.commit("SET_CURRENTTRIPS", {});
+          this.$store.commit("SET_CURRENTUSER", {});
+          this.$router.push("/");
+        }
       }
     }
 </script>
