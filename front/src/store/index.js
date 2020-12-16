@@ -55,8 +55,12 @@ export default new Vuex.Store({
               'Content-Type': 'application/json'
             }
           });
-          const val = await res.json();
-          resolve(val);
+          if (data.method != "DELETE") {
+            resolve(res.json());
+          }
+          else {
+            resolve({});
+          }
         }, 1000);
       });
     },
@@ -90,6 +94,12 @@ export default new Vuex.Store({
       if (!state.fakeData) {
         const url = "http://localhost:8000/api/trips/";
         await dispatch("fetchData", {url: url, method:"POST", body: JSON.stringify(newTrip)});
+      }
+    },
+    async deleteTrip({ dispatch, state }, tripId) {
+      if (!state.fakeData) {
+        const url = `http://localhost:8000/api/trips/${tripId}`;
+        await dispatch("fetchData", {url: url, method:"DELETE", body: {}});
       }
     },
     async createPlan({ dispatch, state }, newPlan) {

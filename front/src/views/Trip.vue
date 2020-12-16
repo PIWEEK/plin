@@ -1,8 +1,23 @@
 <template>
   <b-container>
     <div class="d-flex align-items-center header" :style="headerImg">
+      <b-container>
         <div class="w-100"><h1>{{this.$store.state.currentTrip.title}}</h1></div>
+      </b-container>
     </div>
+
+
+    <b-container>
+      <b-dropdown size="lg"  variant="link" toggle-class="text-decoration-none" no-caret>
+        <template #button-content>
+           <b-icon-gear variant="dark"/>
+        </template>
+        <!--<b-dropdown-item href="#">Duplicar viaje</b-dropdown-item>-->
+        <b-dropdown-item-button @click="deleteTrip()">Borrar viaje</b-dropdown-item-button>
+        <!--<b-dropdown-item href="#">Mover todos los planes al listado</b-dropdown-item>-->
+      </b-dropdown>
+
+    </b-container>
 
     <b-row class="text-center">
       <b-col cols="3">
@@ -11,7 +26,7 @@
       <b-col cols="9">
       <week></week>
       </b-col>
-    </b-row>    
+    </b-row>
   </b-container>
 </template>
 
@@ -33,6 +48,13 @@ export default {
     };
   },
   methods: {
+    async deleteTrip() {
+      this.$store.commit("SET_SHOWSPINNER", true);
+      await this.$store.dispatch("deleteTrip", this.$store.state.currentTrip.id);
+      await this.$store.dispatch("fetchTripsList");
+      this.$router.push("/home");
+      this.$store.commit("SET_SHOWSPINNER", false);
+    },
     async getRecords() {
       if (this.$store.state.currentUser.token === undefined){
         this.$router.push("/");

@@ -98,8 +98,6 @@ export default {
   },
   methods: {
     createTrip: async function() {
-      console.log("TODO: create trip");
-
       var duration = 4;
       if (this.initialDate && this.endDate) {
         const dt1 = new Date(this.initialDate);
