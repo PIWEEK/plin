@@ -75,7 +75,15 @@ export default new Vuex.Store({
     async movePlan({ dispatch, state }, data) {
       if (!state.fakeData) {
         const url = "http://localhost:8000/api/trips/" + state.currentTrip.id + "/plans/" + data.planId +"/";
-        await dispatch("fetchData", {url: url, method:"PATCH", body: JSON.stringify({"day": data.dayId})});
+        var planData = {}
+        if (data.dayId !== null){        
+          planData["day_to"] = data.dayId
+        }
+        if (data.beforePlan !== null){        
+          planData["before_plan"] = data.beforePlan
+        }
+
+        await dispatch("fetchData", {url: url, method:"PATCH", body: JSON.stringify(planData)});
       }
     },
     async createTrip({ dispatch, state }, newTrip) {

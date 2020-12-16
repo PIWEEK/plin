@@ -218,12 +218,12 @@
       },
       onReset: () => {
       },
-      async movePlan(planId){
+      async movePlan(planId, beforePlan){
           this.$store.commit("SET_SHOWSPINNER", true);
-          await this.$store.dispatch("movePlan", {"planId": planId, "dayId": null});
+          await this.$store.dispatch("movePlan", {"planId": planId, "dayId": null, "beforePlan": beforePlan});
           await this.$store.dispatch("fetchTrip");
           this.$store.commit("SET_SHOWSPINNER", false);
-      },
+        },
       async createPlan() {                
         this.$store.commit("SET_SHOWSPINNER", true);
         const newPlan = {
@@ -251,8 +251,8 @@
         console.log("onDrop "+planId);
         this.movePlan(planId);
       },
-      planDropOnChild (planId, position) {          
-        console.log("planDropOnChild: " + planId+ " - position: "+position);
+      planDropOnChild (planId, beforePlan) {    
+        this.movePlan(planId, beforePlan);
       }
     }
   }

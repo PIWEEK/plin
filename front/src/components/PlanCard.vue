@@ -62,7 +62,7 @@
           this.draggingOnMe = false;    
           const plan = evt.dataTransfer.getData('planId');
           console.log("Drop over card "+plan);
-          this.$emit('plan_drop_on_child', plan, this.plan.position);
+          this.$emit('plan_drop_on_child', plan, this.plan.id);
         }
       }
     }

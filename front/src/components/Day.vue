@@ -26,19 +26,18 @@
       },
       props: ["currentDay", "dayNumber"],
       methods: {
-        async movePlan(planId){
+        async movePlan(planId, beforePlan){
           this.$store.commit("SET_SHOWSPINNER", true);
-          await this.$store.dispatch("movePlan", {"planId": planId, "dayId": this.currentDay.id});
+          await this.$store.dispatch("movePlan", {"planId": planId, "dayId": this.currentDay.id, "beforePlan": beforePlan});
           await this.$store.dispatch("fetchTrip");
           this.$store.commit("SET_SHOWSPINNER", false);
         },
         onDrop (evt) {
           const planId = evt.dataTransfer.getData('planId');
-          console.log("onDrop "+planId);
-          this.movePlan(planId);
+          this.movePlan(planId, null);
         },
-        planDropOnChild (planId, position) {          
-          console.log("planDropOnChild: " + planId+ " - position: "+position);
+        planDropOnChild (planId, beforePlan) {    
+          this.movePlan(planId, beforePlan);
         }        
       }
     }
