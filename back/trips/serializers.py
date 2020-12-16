@@ -29,7 +29,7 @@ class LightTripSerializer(serializers.ModelSerializer):
 class TripSerializer(serializers.ModelSerializer):
     days = DaySerializer(required=False, many=True)
     wishlist = serializers.SerializerMethodField()
-    members = UserSerializer(many=True)
+    members = UserSerializer(required=False, many=True)
 
     class Meta:
         model = Trip

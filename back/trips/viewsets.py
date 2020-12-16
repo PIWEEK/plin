@@ -26,6 +26,10 @@ class TripViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return self.request.user.trips.all()
 
+    def perform_create(self, serializer):
+        instance = serializer.save()
+        instance.members.add(self.request.user)
+
     @action(detail=False, methods=['get'])
     def search(self, request):
         search_term = request.query_params['place']

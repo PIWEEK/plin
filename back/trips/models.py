@@ -1,7 +1,8 @@
-from django.contrib.auth.models import User
 from django.contrib.gis.db import models as gis_models
 from django.db import models
 from django.dispatch import receiver
+
+from users.models import User
 
 
 
@@ -9,7 +10,7 @@ class Trip(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     duration = models.IntegerField(blank=False, null=False)
     from_date = models.DateField(blank=True, null=True)
-    members = models.ManyToManyField(User, related_name="trips")
+    members = models.ManyToManyField(User, related_name="trips", blank=True, null=True)
     title = models.CharField(max_length=100, blank=False, null=False)
     to_date = models.DateField(blank=True, null=True)
     url_picture = models.URLField(blank=True, null=True)
