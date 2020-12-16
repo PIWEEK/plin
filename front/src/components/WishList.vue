@@ -1,6 +1,6 @@
 <template>
   <div class="wishlist">
-    <b-button block variant="primary" v-b-modal.modal-new-plan>
+    <b-button block variant="primary" @click="showModal()">
       + Nuevo plan
     </b-button>
     <plan-card
@@ -10,7 +10,7 @@
     </plan-card>
 
     <b-modal id="modal-new-plan" centered  size="lg" scrollable title="Nuevo plan" hide-footer>
-      <b-form @submit="onSubmit" @reset="onReset">
+      <b-form>
         <b-form-group
           id="input-group-plan"
           label="Plan"
@@ -19,10 +19,10 @@
           <vue-type-ahead
             id="input-address"
             class="mb-4"
-            v-model="query"
+            v-model="place"
             :data="places"
             :serializer="item => item.name"
-            @hit="selectedPlace = $event"
+            @hit="onSelectedPlace($event)"
             placeholder="Escribe o busca el nombre del lugar, dirección o coordenadas"
             @input="searchPlaces"
             :showAllResults="true"
@@ -31,16 +31,33 @@
           />
         </b-form-group>
 
-        <b-form-group
-          id="input-group-address"
-          label="Dirección"
-          label-for="input-address"
-        >
-          <b-form-input
-            id="input-address"
-            v-model="address"
-            placeholder="Escribe la dirección"/>
-        </b-form-group>
+        <b-row>
+          <b-col>
+            <b-form-group
+              id="input-group-address"
+              label="Dirección"
+              label-for="input-address"
+            >
+              <b-form-input
+                id="input-address"
+                v-model="address"
+                placeholder="Escribe la dirección"/>
+            </b-form-group>
+          </b-col>
+
+          <b-col>
+            <b-form-group
+              id="input-group-telephone"
+              label="Teléfono"
+              label-for="input-telephone"
+            >
+              <b-form-input
+                id="input-telephone"
+                v-model="telephone"
+                placeholder="Escribe el teléfono"/>
+            </b-form-group>
+          </b-col>
+        </b-row>
         <b-row>
           <b-col>
             <b-form-group
@@ -78,6 +95,19 @@
             </b-form-group>
           </b-col>
         </b-row>
+
+        <b-form-group
+          id="input-group-opening-hours"
+          label="Horarios"
+          label-for="input-opening-hours"
+        >
+          <b-form-textarea
+            id="input-address"
+            v-model="openingHours"
+            rows="3"
+            placeholder="Escribe los horarios en los que se puede visitar"/>
+        </b-form-group>
+
         <b-form-group
           id="input-group-comments"
           label="Comentarios"
@@ -85,13 +115,12 @@
         >
           <b-form-textarea
             id="input-address"
-            v-model="address"
+            v-model="comments"
             rows="3"
             placeholder="¿Cuándo es mejor hacer este plan?, ¿hay que acordarse de llevar algo?, 
 ¡Cualquier cosa que te sirva para organizarte mejor! :)"/>
         </b-form-group>
-      <b-button class="mt-3" block @click="$bvModal.hide('bv-modal-example')">Crear plan</b-button>
-
+        <b-button variant="primary" block @click="createPlan()">Crear plan</b-button>
       </b-form>
     </b-modal>
   </div>
@@ -109,9 +138,11 @@
     },
     data() {
       return {
-        query: '',
         selectedPlace: null,
-        address: '',
+        place: null,
+        address: null,
+        telephone: null,
+        openingHours: null,
         minPrice: null,
         maxPrice: null,
         duration: null,
@@ -120,9 +151,21 @@
       }
     },
     methods: {
+      showModal: function() {
+        this.selectedPlace = null;
+        this.place = null;
+        this.address = null;
+        this.telephone = null;
+        this.openingHours = null;
+        this.minPrice = null;
+        this.maxPrice = null;
+        this.duration = null;
+        this.comments = null;
+        this.places = [];
+        this.$bvModal.show('modal-new-plan');
+      },
       searchPlaces: _.debounce(function(){
-        // in practice this action should be debounced
-        fetch(`https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/textsearch/json?query=${this.query}&key=AIzaSyAyRE60ZUO-zoDDZCDIMFwDgi7CRbIDDMo`)
+        fetch(`https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/textsearch/json?query=${this.place}&key=AIzaSyAyRE60ZUO-zoDDZCDIMFwDgi7CRbIDDMo`)
           .then(response => {
             return response.json();
           })
@@ -130,6 +173,27 @@
             this.places = data.results
           })
       }, 500),
+      onSelectedPlace: function(place) {
+        this.selectedPlace = place;
+        this.place = place.name;
+        this.address = place.formatted_address;
+        this.telephone = place.telephone;
+
+        fetch(`https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/details/json?place_id=${place.place_id}&key=AIzaSyAyRE60ZUO-zoDDZCDIMFwDgi7CRbIDDMo`)
+          .then(response => {
+            return response.json();
+          })
+          .then(data => {
+            this.address = data.result.formatted_address;
+            this.telephone = data.result.international_phone_number;
+            this.openingHours = data.result.opening_hours.weekday_text.join("\n");
+          })
+
+      },
+      createPlan: function() {
+        console.log('TODO: create plan');
+        this.$bvModal.hide('modal-new-plan');
+      },
       onSubmit: () => {
 
       },
