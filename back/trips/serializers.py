@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 from trips.models import Trip, Day, Plan
+from users.serializers import UserSerializer
 
 
 class PlanSerializer(serializers.ModelSerializer):
@@ -26,6 +27,7 @@ class LightTripSerializer(serializers.ModelSerializer):
 class TripSerializer(serializers.ModelSerializer):
     days = DaySerializer(required=False, many=True)
     wishlist = serializers.SerializerMethodField()
+    members = UserSerializer(many=True)
 
     class Meta:
         model = Trip
