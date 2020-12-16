@@ -5,6 +5,7 @@ from users.serializers import UserSerializer
 
 
 class PlanSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Plan
         fields = '__all__'
@@ -12,6 +13,7 @@ class PlanSerializer(serializers.ModelSerializer):
 
 class DaySerializer(serializers.ModelSerializer):
     plans = PlanSerializer(required=False, many=True)
+
     class Meta:
         model = Day
         fields = '__all__'
@@ -37,13 +39,3 @@ class TripSerializer(serializers.ModelSerializer):
         wishlist = Plan.objects.filter(trip=obj, day__isnull=True)
         serializer = PlanSerializer(instance=wishlist, many=True)
         return serializer.data
-
-
-class SearchSerializer(serializers.Serializer):
-    gid = serializers.CharField(max_length=200)
-    name = serializers.CharField(max_length=200)
-
-
-class PlaceSerializer(serializers.Serializer):
-    gid = serializers.CharField(max_length=200)
-    name = serializers.CharField(max_length=200)

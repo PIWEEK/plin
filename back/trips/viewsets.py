@@ -9,9 +9,7 @@ from rest_framework.response import Response
 from trips.serializers import (
     DaySerializer,
     LightTripSerializer,
-    PlaceSerializer,
     PlanSerializer,
-    SearchSerializer,
     TripSerializer
 )
 from trips.models import Trip, Plan, Day
