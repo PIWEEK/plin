@@ -25,10 +25,12 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    async fetchData(context, url) {
+    async fetchData(context, data) {
       return new Promise(resolve => {
         setTimeout(async () => {
-          const res = await fetch(url, {
+          const res = await fetch(data.url, {
+            method: data.method,
+            body: data.body,
             headers: {
               'Authorization': 'JWT '+ context.state.currentUser.token,
               'Accept': 'application/json',
@@ -41,37 +43,20 @@ export default new Vuex.Store({
       });
     },
     async fetchTripsList({ dispatch, commit, state }) {   
-      const myJson = await dispatch("fetchData", state.fakeData ? "fake/trips.json" : "http://localhost:8000/api/trips/");
+      const myJson = await dispatch("fetchData", 
+        state.fakeData ? {url:"fake/trips.json", method:"GET", body: null} : {url:"http://localhost:8000/api/trips/", method:"GET", body: null});
       commit("SET_TRIPS", myJson);
       return myJson;
     },
     async fetchTrip({ dispatch, commit, state }) {      
       const url = "http://localhost:8000/api/trips/" + state.currentTrip.id;      
-      const myJson = await dispatch("fetchData", state.fakeData ? "fake/trip.json" : url)
+      const myJson = await dispatch("fetchData", state.fakeData ? {url:"fake/trip.json", method:"GET", body: null} : {url: url, method:"GET", body: null});
       commit("SET_CURRENTTRIP", myJson);
       return myJson;
     },
     async login({dispatch, state}, body) {
-      if (state.fakeData){
-        return await dispatch("fetchData", "fake/login.json")
-      } else {
-        return new Promise(resolve => {
-          setTimeout(async () => {
-            const res = await fetch(
-              "http://localhost:8000/api/token/", 
-              {
-                method: 'POST',
-                headers: {
-                  'Accept': 'application/json',
-                  'Content-Type': 'application/json'
-                },
-                body: body
-              });
-            const val = await res.json();
-            resolve(val);
-          }, 1000);
-        });
-      }
+      const myJson = await dispatch("fetchData", state.fakeData ? {url:"fake/login.json", method:"GET", body: null} : {url: "http://localhost:8000/api/token/", method:"POST", body: body});
+      return myJson;
     }
     
 
