@@ -47,6 +47,28 @@ class PlanViewSet(viewsets.ModelViewSet):
     serializer_class = PlanSerializer
     queryset = Plan.objects.all()
 
+    def perform_update(self, serializer):
+        day = Day.objects.get(id=self.request.query_params['day_to'])
+
+        if 'before_plan' in self.request.query_params:
+            before_plan_id = self.request.query_params['before_plan']
+
+            before_plan = Plan.objects.get(id=before_plan_id)
+            before_plan_order = before_plan.order
+            plans_to_reorder = Plan.objects.filter(day=day, order__gte=before_plan_order).order_by('order')
+
+            for i, plan in enumerate(plans_to_reorder):
+                plan.order = before_plan_order + i + 1
+                plan.save()
+
+            instance = serializer.save(day=day)
+            instance.order = before_plan_order
+            instance.save()
+        else:
+            after_plan = Plan.objects.filter(day=day).order_by('-order').first()
+            instance = serializer.save(day=day, order=after_plan.order + 1)
+            instance.save()
+
 
 class DayViewSet(viewsets.ModelViewSet):
     serializer_class = DaySerializer

@@ -25,7 +25,7 @@ class PlanAdmin(admin.ModelAdmin):
     fieldsets = (
         ('Main', {'fields': ('name', 'url_picture', 'address')}),
         ('Dates', {'fields': ('day', 'duration', 'opening_hours', 'popular_times')}),
-        ('Other', {'fields': ('trip',)}),
+        ('Other', {'fields': ('trip', 'order')}),
     )
-    list_display = ['name',]
+    list_display = ['name', 'day', 'order']
     save_on_top = True

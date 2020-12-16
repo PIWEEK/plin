@@ -42,7 +42,7 @@ class Plan(models.Model):
     google_id = models.CharField(max_length=100, blank=True, null=True)
     name = models.CharField(max_length=100, blank=False, null=False)
     opening_hours = models.CharField(max_length=100, blank=True, null=True)
-    order = models.IntegerField()
+    order = models.IntegerField(blank=True, null=True)
     popular_times = models.URLField(blank=True, null=True)
     trip = models.ForeignKey(Trip, related_name="plans", on_delete=models.CASCADE)
     url_picture = models.URLField(blank=True, null=True)
