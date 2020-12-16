@@ -165,7 +165,7 @@
         this.$bvModal.show('modal-new-plan');
       },
       searchPlaces: _.debounce(function(){
-        fetch(`https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/textsearch/json?query=${this.place}&key=AIzaSyAyRE60ZUO-zoDDZCDIMFwDgi7CRbIDDMo`)
+        fetch(`https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/textsearch/json?query=${this.place}&key=${process.env.VUE_APP_GOOGLE_API_KEY}`)
           .then(response => {
             return response.json();
           })
@@ -179,7 +179,7 @@
         this.address = place.formatted_address;
         this.telephone = place.telephone;
 
-        fetch(`https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/details/json?place_id=${place.place_id}&key=AIzaSyAyRE60ZUO-zoDDZCDIMFwDgi7CRbIDDMo`)
+        fetch(`https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/details/json?place_id=${place.place_id}&key=${process.env.VUE_APP_GOOGLE_API_KEY}`)
           .then(response => {
             return response.json();
           })
