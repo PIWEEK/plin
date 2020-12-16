@@ -56,7 +56,7 @@ export default new Vuex.Store({
             }
           });
           const val = await res.json();
-          resolve(val);          
+          resolve(val);
         }, 1000);
       });
     },
@@ -72,13 +72,19 @@ export default new Vuex.Store({
       commit("SET_CURRENTTRIP", myJson);
       return myJson;
     },
-    async movePlan({ dispatch, state }, data) {     
+    async movePlan({ dispatch, state }, data) {
       if (!state.fakeData) {
         const url = "http://localhost:8000/api/trips/" + state.currentTrip.id + "/plans/" + data.planId +"/";
         await dispatch("fetchData", {url: url, method:"PATCH", body: JSON.stringify({"day": data.dayId})});
       }
     },
-    async createPlan({ dispatch, state }, newPlan) {     
+    async createTrip({ dispatch, state }, newTrip) {
+      if (!state.fakeData) {
+        const url = "http://localhost:8000/api/trips/";
+        await dispatch("fetchData", {url: url, method:"POST", body: JSON.stringify(newTrip)});
+      }
+    },
+    async createPlan({ dispatch, state }, newPlan) {
       if (!state.fakeData) {
         const url = "http://localhost:8000/api/trips/" + state.currentTrip.id + "/plans/";
         await dispatch("fetchData", {url: url, method:"POST", body: JSON.stringify(newPlan)});

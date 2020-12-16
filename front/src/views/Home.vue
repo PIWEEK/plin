@@ -97,8 +97,28 @@ export default {
     }
   },
   methods: {
-    createTrip: function() {
+    createTrip: async function() {
       console.log("TODO: create trip");
+
+      var duration = 4;
+      if (this.initialDate && this.endDate) {
+        const dt1 = new Date(this.initialDate);
+        const dt2 = new Date(this.endDate);
+        duration = Math.floor((Date.UTC(dt2.getFullYear(), dt2.getMonth(), dt2.getDate()) - Date.UTC(dt1.getFullYear(), dt1.getMonth(), dt1.getDate()) ) /(1000 * 60 * 60 * 24));
+      }
+
+      const trip = {
+        "duration": duration,
+        "from_date": this.initialDate,
+        "title": this.title,
+        "to_date": this.endDate,
+        "members": [1]
+      }
+
+      this.$store.commit("SET_SHOWSPINNER", true);
+      await this.$store.dispatch("createTrip", trip);
+      await this.$store.dispatch("fetchTripsList");
+      this.$store.commit("SET_SHOWSPINNER", false);
     }
   }
 };
