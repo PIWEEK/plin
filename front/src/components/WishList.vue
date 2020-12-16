@@ -165,7 +165,15 @@
         this.$bvModal.show('modal-new-plan');
       },
       searchPlaces: _.debounce(function(){
-        fetch(`https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/textsearch/json?query=${this.place}&key=${process.env.VUE_APP_GOOGLE_API_KEY}`)
+        console.log("this.$store.state.currentUser", this.$store.state.currentUser.token);
+
+        fetch(`http://localhost:8000/api/trips/search?place=${this.place}`, {
+            headers: {
+              'Authorization': 'JWT '+ this.$store.state.currentUser.token,
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            }
+          })
           .then(response => {
             return response.json();
           })
@@ -179,7 +187,13 @@
         this.address = place.formatted_address;
         this.telephone = place.telephone;
 
-        fetch(`https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/details/json?place_id=${place.place_id}&key=${process.env.VUE_APP_GOOGLE_API_KEY}`)
+        fetch(`http://localhost:8000/api/trips/locate?place_id=${place.place_id}`, {
+            headers: {
+              'Authorization': 'JWT '+ this.$store.state.currentUser.token,
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            }
+          })
           .then(response => {
             return response.json();
           })

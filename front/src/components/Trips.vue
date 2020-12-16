@@ -25,7 +25,7 @@ export default {
     this.getRecords();
   },
   data() {
-    return {      
+    return {
     };
   },
   components: { "trip-card": TripCard },
@@ -33,7 +33,7 @@ export default {
     ...mapGetters(["getTrips"])
   },
   methods: {
-    async getRecords() {      
+    async getRecords() {
       if (this.$store.state.currentUser.token !== undefined){
         await this.$store.dispatch("fetchTripsList");
       }

@@ -11,17 +11,31 @@ export default new Vuex.Store({
     showSpinner: false,
     currentTrip: {},
     currentUser: {"name": null},
-    fakeData: true
+    fakeData: false
   },
   mutations: {
+    INITIALIZE_STORE(state) {
+      if (localStorage.getItem('state')) {
+        const localStorageState = JSON.parse(localStorage.getItem('state'));
+        state.trips = localStorageState.trips;
+        state.displayTrips = localStorageState.displayTrips;
+        state.rows = localStorageState.rows;
+        state.showSpinner = localStorageState.showSpinner;
+        state.currentTrip = localStorageState.currentTrip;
+        state.currentUser = localStorageState.currentUser;
+      }
+    },
     SET_TRIPS(state, trips) {
       state.trips = trips;
+      localStorage.setItem('state', JSON.stringify(state));
     },
     SET_CURRENTTRIP(state, currentTrip) {
       state.currentTrip = currentTrip;
+      localStorage.setItem('state', JSON.stringify(state));
     },
     SET_CURRENTUSER(state, currentUser) {
       state.currentUser = currentUser;
+      localStorage.setItem('state', JSON.stringify(state));
     }
   },
   actions: {
