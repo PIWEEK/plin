@@ -22,11 +22,10 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from rest_framework_nested import routers
 
 from trips.viewsets import TripViewSet, PlanViewSet, DayViewSet
-from users.viewsets import CreateUserViewSet, MeViewSet
+from users.viewsets import CreateUserViewSet, MeView
 
 router = routers.DefaultRouter()
 router.register(r'users', CreateUserViewSet, basename='users')
-router.register(r'me', MeViewSet, basename='me')
 router.register(r'trips', TripViewSet, basename='trip')
 
 # Automatic routes for nested viewsets
@@ -39,6 +38,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(trips_router.urls)),
     path('api/', include(router.urls)),
+    path('api/me/', MeView.as_view(), name='me'),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api-auth/', include('rest_framework.urls')), # login to the browsable api
