@@ -1,4 +1,6 @@
+from django.conf import settings
 from django.db.models import Q
+import requests
 from rest_framework import views
 from rest_framework import viewsets
 from rest_framework.decorators import action
@@ -26,29 +28,24 @@ class TripViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return self.request.user.trips.all()
 
+    @action(detail=False, methods=['get'])
+    def search(self, request):
+        search_term = request.query_params['place']
+        url = f"https://maps.googleapis.com/maps/api/place/textsearch/json?query={search_term}&key={settings.GOOGLE_API_KEY}"
+        res = requests.get(url)
+        return Response(res.json())
+
+    @action(detail=False, methods=['get'])
+    def locate(self, request):
+        place_id = request.query_params['place_id']
+        url = f"https://maps.googleapis.com/maps/api/place/details/json?place_id={place_id}&key={settings.GOOGLE_API_KEY}"
+        res = requests.get(url)
+        return Response(res.json())
+
 
 class PlanViewSet(viewsets.ModelViewSet):
     serializer_class = PlanSerializer
     queryset = Plan.objects.all()
-
-    @action(detail=False, methods=['get'])
-    def search(self, request, trip_pk):
-        # do the search
-        results = [
-            {'gid': '1', 'name': 'Museo del Prado'},
-            {'gid': '2', 'name': 'Museo Thyssen'},
-            {'gid': '3', 'name': 'Museo Lázaro Galdiano'}
-        ]
-        serializer = SearchSerializer(results, many=True, context={'request': request})
-        return Response(serializer.data)
-
-
-    @action(detail=False, methods=['get'])
-    def locate(self, request, trip_pk):
-        # locate the details of the place
-        place = {'gid': '1', 'name': 'Museo del Prado'}
-        serializer = PlaceSerializer(place, context={'request': request})
-        return Response(serializer.data)
 
 
 class DayViewSet(viewsets.ModelViewSet):
