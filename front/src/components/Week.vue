@@ -1,5 +1,5 @@
 <template>
-<b-container style="width: 100%; text-align: left; overflow-x: hidden">
+<b-container style="width: 100%; text-align: left; overflow-x: scroll">
   <b-row class="flex-nowrap">
     <day 
        :currentDay="currentDay"          

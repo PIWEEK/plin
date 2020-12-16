@@ -4,7 +4,7 @@
       + Nuevo plan
     </b-button>
     <div 
-      style="width: 100%; height: 100%"
+      style="width: 100%; height: 40rem"
       class="drop-zone"
       @drop='onDrop($event, 1)' 
       @dragover.prevent
@@ -261,8 +261,6 @@
 <style lang="scss" scoped>
   .wishlist {
     background-color: lightblue;
-    border: 1px solid black;
-    height: 300px;
     width: 100%;
   }
 </style>
