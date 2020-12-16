@@ -48,10 +48,10 @@ class PlanViewSet(viewsets.ModelViewSet):
     queryset = Plan.objects.all()
 
     def perform_update(self, serializer):
-        day = Day.objects.get(id=self.request.query_params['day_to'])
+        day = Day.objects.get(id=self.request.data['day_to'])
 
-        if 'before_plan' in self.request.query_params:
-            before_plan_id = self.request.query_params['before_plan']
+        if 'before_plan' in self.request.data:
+            before_plan_id = self.request.data['before_plan']
 
             before_plan = Plan.objects.get(id=before_plan_id)
             before_plan_order = before_plan.order
