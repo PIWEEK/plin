@@ -8,22 +8,22 @@
     "days":[
         {
             "id": 501,
-            "title": "Day 1",
+            "name": "Day 1",
             "plans": []
         },
         {
             "id": 502,
-            "title": "Day 2",
+            "name": "Day 2",
             "plans": [
                 {
                     "id": 1002,
-                    "title": "Tarde de compras",
+                    "name": "Tarde de compras",
                     "url_picture": "https://picsum.photos/200",
                     "position": 0
                 },
                 {
                     "id": 1003,
-                    "title": "Museo del Prado",
+                    "name": "Museo del Prado",
                     "url_picture": "https://picsum.photos/200",
                     "price": "23.70€",
                     "duration": "2,5 - 4,5h",
@@ -33,11 +33,11 @@
         },
         {
             "id": 503,
-            "title": "Day 3",
+            "name": "Day 3",
             "plans": [
                 {
                     "id": 1004,
-                    "title": "Museo del Prado",
+                    "name": "Museo del Prado",
                     "url_picture": "https://picsum.photos/200",
                     "price": "23.70€",
                     "duration": "2,5 - 4,5h",
@@ -48,19 +48,19 @@
         },
         {
             "id": 504,
-            "title": "Day 4",
+            "name": "Day 4",
             "plans": []
         },
         {
             "id": 505,
-            "title": "Day 5",
+            "name": "Day 5",
             "plans": []
         }
     ],
     "wishlist": [
         {
             "id": 1001,
-            "title": "Museo del Prado",
+            "name": "Museo del Prado",
             "url_picture": "https://picsum.photos/id/360/200/200",
             "price": "23.70€",
             "duration": "2,5 - 4,5h",

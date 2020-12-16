@@ -16,7 +16,7 @@
     >
     <b-card-text>
     <div>
-      {{ plan.title }}
+      {{ plan.name }}
     </div>
     <div>
       <span v-if="plan.price !== null">{{ plan.price }}</span>
