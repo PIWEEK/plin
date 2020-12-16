@@ -13,6 +13,7 @@ from trips.serializers import (
     TripSerializer
 )
 from trips.models import Trip, Plan, Day
+from users.models import User
 
 
 class TripViewSet(viewsets.ModelViewSet):
@@ -43,6 +44,18 @@ class TripViewSet(viewsets.ModelViewSet):
         url = f"https://maps.googleapis.com/maps/api/place/details/json?place_id={place_id}&key={settings.GOOGLE_API_KEY}"
         res = requests.get(url)
         return Response(res.json())
+
+    @action(detail=True, methods=['post'])
+    def invite(self, request, pk=None):
+        trip = Trip.objects.get(pk=pk)
+        email = request.data['email']
+        user = User.objects.filter(email=email).first()
+        if user:
+            trip.members.add(user)
+            serializer = TripSerializer(trip)
+            return Response(serializer.data)
+        else:
+            return Response('user not found')
 
 
 class PlanViewSet(viewsets.ModelViewSet):
