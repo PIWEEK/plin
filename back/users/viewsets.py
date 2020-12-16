@@ -1,23 +1,30 @@
-from rest_framework import viewsets
-from rest_framework import mixins
 from rest_framework import generics
+from rest_framework import mixins
+from rest_framework import permissions
+from rest_framework import viewsets
 
 from users.models import User
 from users.serializers import UserSerializer
 
 
-class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
+
+class CreateUserViewSet(mixins.CreateModelMixin,
+                        viewsets.GenericViewSet):
+
     serializer_class = UserSerializer
+    permission_classes = [permissions.AllowAny]
 
 
-# class MeView(mixins.RetrieveModelMixin,
-#              # mixins.UpdateModelMixin,
-#              # mixins.DestroyModelMixin,
-#              generics.GenericAPIView):
+# class MeViewSet(viewsets.ViewSet):
 #
-#     serializer_class = UserSerializer
-#     # queryset = User.objects.all()
-#
-#     def get_queryset(self):
-#         return User.objects.get(pk=self.request.user.id)
+#     def list(self, request):
+#         serializer = UserSerializer(self.request.user)
+#         return Response(serializer.data)
+
+class MeViewSet(mixins.RetrieveModelMixin,
+             # mixins.UpdateModelMixin,
+             # mixins.DestroyModelMixin,
+                viewsets.GenericViewSet):
+
+    serializer_class = UserSerializer
+    queryset = User.objects.all()

@@ -22,10 +22,11 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from rest_framework_nested import routers
 
 from trips.viewsets import TripViewSet, PlanViewSet, DayViewSet
-from users.viewsets import UserViewSet
+from users.viewsets import CreateUserViewSet, MeViewSet
 
 router = routers.DefaultRouter()
-router.register(r'users', UserViewSet, basename='users')
+router.register(r'users', CreateUserViewSet, basename='users')
+router.register(r'me', MeViewSet, basename='me')
 router.register(r'trips', TripViewSet, basename='trip')
 
 # Automatic routes for nested viewsets
