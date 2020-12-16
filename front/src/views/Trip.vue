@@ -1,21 +1,18 @@
 <template>
-<b-container>
-
-<div class="m-3">
+  <b-container>
     <div class="d-flex align-items-center header" :style="headerImg">
         <div class="w-100"><h1>{{this.$store.state.currentTrip.name}}</h1></div>
     </div>
-</div>
 
-  <b-row class="text-center">
-    <b-col cols="3">      
-      <wishlist></wishlist>
-    </b-col>
-    <b-col cols="9">
-    <week></week>
-    </b-col>
-  </b-row>
-</b-container>
+    <b-row class="text-center">
+      <b-col cols="3">
+        <wishlist></wishlist>
+      </b-col>
+      <b-col cols="9">
+      <week></week>
+      </b-col>
+    </b-row>
+  </b-container>
 </template>
 
 <script>

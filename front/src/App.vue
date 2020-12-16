@@ -1,7 +1,8 @@
 <template>
   <div id="app">
-    <div>
-      <b-navbar toggleable="lg" type="dark" variant="info">
+    <b-container>
+      <b-container>
+        <b-navbar toggleable="lg" type="dark" variant="info">
         <b-navbar-brand href="#">
         <b-img src="/logo.png" alt="Plin" style="width: 2rem; margin-right: 1rem"></b-img>
         Plin
@@ -32,12 +33,13 @@
           </b-navbar-nav>
         </b-collapse>
       </b-navbar>
-    </div>
-    <router-view />
+      </b-container>
+      <router-view />
+    </b-container>
   </div>
 </template>
 
-<script>    
+<script>
     export default {
       computed: {
         hasUser(){
