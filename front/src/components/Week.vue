@@ -3,7 +3,8 @@
   <b-row class="flex-nowrap">
     <day 
        :currentDay="currentDay"          
-          v-for="currentDay in $store.state.currentTrip.days"
+       :dayNumber=index
+          v-for="(currentDay, index) in $store.state.currentTrip.days"
           :key="currentDay.id">
   </day>
   </b-row>

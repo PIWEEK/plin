@@ -35,7 +35,9 @@ export default {
   methods: {
     async getRecords() {
       if (this.$store.state.currentUser.token !== undefined){
+        this.$store.commit("SET_SHOWSPINNER", true);
         await this.$store.dispatch("fetchTripsList");
+        this.$store.commit("SET_SHOWSPINNER", false);
       }
     }
   }

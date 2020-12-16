@@ -1,6 +1,6 @@
 <template>
 <b-col style="padding: 0 0.3rem 0 0">
-  <b-button style="width: 12rem">{{ currentDay.title }}</b-button>
+  <b-button style="width: 12rem">Día {{ dayNumber + 1 }}</b-button>
   <div 
   class="day drop-zone"
   @drop='onDrop($event, 1)' 
@@ -24,15 +24,22 @@
       components: {
         'plan-card': PlanCard
       },
-      props: ["currentDay"],
+      props: ["currentDay", "dayNumber"],
       methods: {
+        async movePlan(planId){
+          this.$store.commit("SET_SHOWSPINNER", true);
+          await this.$store.dispatch("movePlan", {"planId": planId, "dayId": this.currentDay.id});
+          await this.$store.dispatch("fetchTrip");
+          this.$store.commit("SET_SHOWSPINNER", false);
+        },
         onDrop (evt) {
-          const plan = evt.dataTransfer.getData('planId');
-          console.log("onDrop "+plan);
+          const planId = evt.dataTransfer.getData('planId');
+          console.log("onDrop "+planId);
+          this.movePlan(planId);
         },
         planDropOnChild (planId, position) {          
           console.log("planDropOnChild: " + planId+ " - position: "+position);
-        }
+        }        
       }
     }
 </script>

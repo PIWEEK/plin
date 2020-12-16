@@ -11,7 +11,7 @@
       <b-col cols="9">
       <week></week>
       </b-col>
-    </b-row>
+    </b-row>    
   </b-container>
 </template>
 
@@ -37,7 +37,9 @@ export default {
       if (this.$store.state.currentUser.token === undefined){
         this.$router.push("/");
       }
+      this.$store.commit("SET_SHOWSPINNER", true);
       await this.$store.dispatch("fetchTrip");
+      this.$store.commit("SET_SHOWSPINNER", false);
     }
   },
   computed: {

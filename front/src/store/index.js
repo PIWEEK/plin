@@ -8,9 +8,9 @@ export default new Vuex.Store({
     trips: [],
     displayTrips: [],
     rows: 0,
-    showSpinner: false,
     currentTrip: {},
     currentUser: {"name": null},
+    showSpinner: false,
     fakeData: false
   },
   mutations: {
@@ -36,6 +36,9 @@ export default new Vuex.Store({
     SET_CURRENTUSER(state, currentUser) {
       state.currentUser = currentUser;
       localStorage.setItem('state', JSON.stringify(state));
+    },
+    SET_SHOWSPINNER(state, showSpinner) {
+      state.showSpinner = showSpinner;
     }
   },
   actions: {
@@ -52,7 +55,7 @@ export default new Vuex.Store({
             }
           });
           const val = await res.json();
-          resolve(val);
+          resolve(val);          
         }, 1000);
       });
     },
@@ -67,6 +70,12 @@ export default new Vuex.Store({
       const myJson = await dispatch("fetchData", state.fakeData ? {url:"fake/trip.json", method:"GET", body: null} : {url: url, method:"GET", body: null});
       commit("SET_CURRENTTRIP", myJson);
       return myJson;
+    },
+    async movePlan({ dispatch, state }, data) {     
+      if (!state.fakeData) {
+        const url = "http://localhost:8000/api/trips/" + state.currentTrip.id + "/plans/" + data.planId +"/";
+        await dispatch("fetchData", {url: url, method:"PATCH", body: JSON.stringify({"day": data.dayId})});
+      }
     },
     async login({dispatch, state}, body) {
       const myJson = await dispatch("fetchData", state.fakeData ? {url:"fake/login.json", method:"GET", body: null} : {url: "http://localhost:8000/api/token/", method:"POST", body: body});

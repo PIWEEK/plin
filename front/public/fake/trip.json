@@ -8,12 +8,10 @@
     "days":[
         {
             "id": 501,
-            "name": "Day 1",
             "plans": []
         },
         {
             "id": 502,
-            "name": "Day 2",
             "plans": [
                 {
                     "id": 1002,
@@ -33,7 +31,6 @@
         },
         {
             "id": 503,
-            "name": "Day 3",
             "plans": [
                 {
                     "id": 1004,
@@ -48,12 +45,10 @@
         },
         {
             "id": 504,
-            "name": "Day 4",
             "plans": []
         },
         {
             "id": 505,
-            "name": "Day 5",
             "plans": []
         }
     ],
