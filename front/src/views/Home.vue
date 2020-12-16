@@ -111,8 +111,7 @@ export default {
         "duration": duration,
         "from_date": this.initialDate,
         "title": this.title,
-        "to_date": this.endDate,
-        "members": [1]
+        "to_date": this.endDate
       }
 
       this.$store.commit("SET_SHOWSPINNER", true);
