@@ -1,32 +1,32 @@
 [
         {
             "id": 1,
-            "name": "En tren por Europa",
-            "image": "https://picsum.photos/id/155/250/140",
+            "title": "En tren por Europa",
+            "url_picture": "https://picsum.photos/id/155/250/140",
             "start": "05/03/2022",
             "end": "03/04/2022",
             "duration": 33
         },
         {
             "id": 2,
-            "name": "Senderismo por Pirineos",
-            "image": "https://picsum.photos/id/1039/250/140",
+            "title": "Senderismo por Pirineos",
+            "url_picture": "https://picsum.photos/id/1039/250/140",
             "start": null,
             "end": null,
             "duration": 4
         },
         {
             "id": 3,
-            "name": "Castillos!",
-            "image": "https://picsum.photos/id/1040/250/140",
+            "title": "Castillos!",
+            "url_picture": "https://picsum.photos/id/1040/250/140",
             "start": "10/12/2022",
             "end": "20/12/2022",
             "duration": 10
         },
         {
             "id": 4,
-            "name": "Playita",
-            "image": "https://picsum.photos/id/317/250/140",
+            "title": "Playita",
+            "url_picture": "https://picsum.photos/id/317/250/140",
             "start": "01/08/2021",
             "end": "15/08/2021",
             "duration": 15

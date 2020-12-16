@@ -2,8 +2,8 @@
     <b-container>
       <b-row align-v="center">
         <trip-card
-          :name="trip.name"
-          :image="trip.image"
+          :title="trip.title"
+          :url_picture="trip.url_picture"
           :start="trip.start"
           :end="trip.end"
           :duration="trip.duration"

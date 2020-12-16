@@ -1,6 +1,6 @@
 <template>
 <b-col style="padding: 0 0.3rem 0 0">
-  <b-button style="width: 12rem">{{ currentDay.name }}</b-button>
+  <b-button style="width: 12rem">{{ currentDay.title }}</b-button>
   <div 
   class="day drop-zone"
   @drop='onDrop($event, 1)' 

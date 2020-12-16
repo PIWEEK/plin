@@ -10,7 +10,8 @@ export default new Vuex.Store({
     rows: 0,
     showSpinner: false,
     currentTrip: {},
-    currentUser: {"name": null}
+    currentUser: {"name": null},
+    fakeData: true
   },
   mutations: {
     SET_TRIPS(state, trips) {
@@ -39,34 +40,38 @@ export default new Vuex.Store({
         }, 1000);
       });
     },
-    async fetchTripsList({ dispatch, commit }) {
-      //const myJson = await dispatch("fetchData", "trips.json");
-      const myJson = await dispatch("fetchData", "http://localhost:8000/api/trips/");
+    async fetchTripsList({ dispatch, commit, state }) {   
+      const myJson = await dispatch("fetchData", state.fakeData ? "fake/trips.json" : "http://localhost:8000/api/trips/");
       commit("SET_TRIPS", myJson);
       return myJson;
     },
-    async fetchTrip({ dispatch, commit }) {
-      const myJson = await dispatch("fetchData", "trip.json");
+    async fetchTrip({ dispatch, commit, state }) {      
+      const url = "http://localhost:8000/api/trips/" + state.currentTrip.id;      
+      const myJson = await dispatch("fetchData", state.fakeData ? "fake/trip.json" : url)
       commit("SET_CURRENTTRIP", myJson);
       return myJson;
     },
-    async login(context, body) {
-      return new Promise(resolve => {
-        setTimeout(async () => {
-          const res = await fetch(
-            "http://localhost:8000/api/token/", 
-            {
-              method: 'POST',
-              headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-              },
-              body: body
-            });
-          const val = await res.json();
-          resolve(val);
-        }, 1000);
-      });
+    async login({dispatch, state}, body) {
+      if (state.fakeData){
+        return await dispatch("fetchData", "fake/login.json")
+      } else {
+        return new Promise(resolve => {
+          setTimeout(async () => {
+            const res = await fetch(
+              "http://localhost:8000/api/token/", 
+              {
+                method: 'POST',
+                headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json'
+                },
+                body: body
+              });
+            const val = await res.json();
+            resolve(val);
+          }, 1000);
+        });
+      }
     }
     
 

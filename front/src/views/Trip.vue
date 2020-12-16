@@ -1,7 +1,7 @@
 <template>
   <b-container>
     <div class="d-flex align-items-center header" :style="headerImg">
-        <div class="w-100"><h1>{{this.$store.state.currentTrip.name}}</h1></div>
+        <div class="w-100"><h1>{{this.$store.state.currentTrip.title}}</h1></div>
     </div>
 
     <b-row class="text-center">
@@ -34,12 +34,15 @@ export default {
   },
   methods: {
     async getRecords() {
+      if (this.$store.state.currentUser.token === undefined){
+        this.$router.push("/");
+      }
       await this.$store.dispatch("fetchTrip");
     }
   },
   computed: {
       headerImg () {
-        return "background-image: url('" + this.$store.state.currentTrip.image + "')";
+        return "background-image: url('" + this.$store.state.currentTrip.url_picture + "')";
       }
     },
 };

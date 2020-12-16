@@ -1,7 +1,7 @@
 <template>
 <div>
   <b-card
-    :img-src="image"
+    :img-src="url_picture"
     img-alt="Image"
     img-top
     tag="article"
@@ -11,11 +11,11 @@
   >
     <b-card-text>
       <h4 style="height: 4rem">
-        {{ name }}
+        {{ title }}
       </h4>
       <div>
-        <span v-if="start !== null">Del {{ start }} </span>
-        <span v-if="end !== null">al {{ end }} </span>
+        <span v-if="start !== undefined">Del {{ start }} </span>
+        <span v-if="end !== undefined">al {{ end }} </span>
         ({{ duration }} días)
       </div>
     </b-card-text>
@@ -25,11 +25,11 @@
 
 <script>
     export default {
-      props: ["id", "name", "image", "start", "end", "duration"],      
+      props: ["id", "title", "url_picture", "start", "end", "duration"],      
       methods: {
         selectTrip: function () {
-          this.$store.commit('SET_CURRENTTRIP', {id:this.id, name: this.name, image: this.image});
-          this.$router.push("/trip")          
+          this.$store.commit('SET_CURRENTTRIP', {id:this.id, title: this.title, url_picture: this.url_picture});
+          this.$router.push("/trip");
         }
       }
       
