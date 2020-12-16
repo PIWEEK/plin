@@ -56,14 +56,14 @@ export default new Vuex.Store({
         }, 1000);
       });
     },
-    async fetchTripsList({ dispatch, commit, state }) {   
-      const myJson = await dispatch("fetchData", 
+    async fetchTripsList({ dispatch, commit, state }) {
+      const myJson = await dispatch("fetchData",
         state.fakeData ? {url:"fake/trips.json", method:"GET", body: null} : {url:"http://localhost:8000/api/trips/", method:"GET", body: null});
       commit("SET_TRIPS", myJson);
       return myJson;
     },
-    async fetchTrip({ dispatch, commit, state }) {      
-      const url = "http://localhost:8000/api/trips/" + state.currentTrip.id;      
+    async fetchTrip({ dispatch, commit, state }) {
+      const url = "http://localhost:8000/api/trips/" + state.currentTrip.id;
       const myJson = await dispatch("fetchData", state.fakeData ? {url:"fake/trip.json", method:"GET", body: null} : {url: url, method:"GET", body: null});
       commit("SET_CURRENTTRIP", myJson);
       return myJson;
@@ -72,8 +72,6 @@ export default new Vuex.Store({
       const myJson = await dispatch("fetchData", state.fakeData ? {url:"fake/login.json", method:"GET", body: null} : {url: "http://localhost:8000/api/token/", method:"POST", body: body});
       return myJson;
     }
-    
-
   },
   getters: {
     getTrips(state) {
