@@ -20,7 +20,7 @@ export default new Vuex.Store({
         state.trips = localStorageState.trips;
         state.displayTrips = localStorageState.displayTrips;
         state.rows = localStorageState.rows;
-        state.showSpinner = localStorageState.showSpinner;
+        state.showSpinner = false;
         state.currentTrip = localStorageState.currentTrip;
         state.currentUser = localStorageState.currentUser;
       }
@@ -39,6 +39,7 @@ export default new Vuex.Store({
     },
     SET_SHOWSPINNER(state, showSpinner) {
       state.showSpinner = showSpinner;
+      localStorage.setItem('state', JSON.stringify(state));
     }
   },
   actions: {
