@@ -46,14 +46,20 @@ export default new Vuex.Store({
     async fetchData(context, data) {
       return new Promise(resolve => {
         setTimeout(async () => {
+
+          var headers = {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          }
+
+          if (!data.anonymous){
+            headers['Authorization'] = 'JWT '+ context.state.currentUser.token;
+          }
+
           const res = await fetch(data.url, {
             method: data.method,
             body: data.body,
-            headers: {
-              'Authorization': 'JWT '+ context.state.currentUser.token,
-              'Accept': 'application/json',
-              'Content-Type': 'application/json'
-            }
+            headers: headers
           });
           if (data.method != "DELETE") {
             resolve(res.json());
@@ -109,8 +115,15 @@ export default new Vuex.Store({
       }
     },
     async login({dispatch, state}, body) {
-      const myJson = await dispatch("fetchData", state.fakeData ? {url:"fake/login.json", method:"GET", body: null} : {url: "http://localhost:8000/api/token/", method:"POST", body: body});
+      const myJson = await dispatch("fetchData", state.fakeData ? {url:"fake/login.json", method:"GET", body: null} : {url: "http://localhost:8000/api/token/", method:"POST", body: body, anonymous: true});
       return myJson;
+    },
+    async register({dispatch, state}, body) {
+      if (!state.fakeData) {
+        const myJson = await dispatch("fetchData", {url: "http://localhost:8000/api/users/", method:"POST", body: body, anonymous: true});
+        return myJson;
+      }
+      return {};
     }
   },
   getters: {
