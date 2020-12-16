@@ -1,11 +1,11 @@
 <template>
   <b-container>
     <b-row>
-    <h1 style="margin-top: 5rem">Próximos Viajes</h1>
+      <h1 style="margin-top: 5rem">Próximos Viajes</h1>
     </b-row>
     <trips />
     <b-row>
-    <h1 style="margin-top: 5rem">Viajes pasados</h1>
+      <h1 style="margin-top: 5rem">Viajes pasados</h1>
     </b-row>
     <trips />
   </b-container>

@@ -3,7 +3,7 @@
     <b-container>
       <b-container>
         <b-navbar toggleable="lg" type="dark" variant="info">
-        <b-navbar-brand href="#">
+        <b-navbar-brand href="/home">
         <b-img src="/logo.png" alt="Plin" style="width: 2rem; margin-right: 1rem"></b-img>
         Plin
         </b-navbar-brand>
@@ -11,10 +11,6 @@
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
         <b-collapse id="nav-collapse" is-nav>
-          <b-navbar-nav>
-            <b-nav-item href="#" to="/home" v-if="hasUser">Mis viajes</b-nav-item>
-          </b-navbar-nav>
-
           <!-- Right aligned nav items -->
           <b-navbar-nav class="ml-auto" v-if="hasUser">
             <b-nav-form>

@@ -1,18 +1,18 @@
 <template>
-    <b-container>
-      <b-row align-v="center">
-        <trip-card
-          :title="trip.title"
-          :url_picture="trip.url_picture"
-          :start="trip.start"
-          :end="trip.end"
-          :duration="trip.duration"
-          :id="trip.id"
-          v-for="trip in getTrips"
-          :key="trip.id"
-        ></trip-card>
-      </b-row>
-    </b-container>
+  <b-container>
+    <b-row align-v="center">
+      <trip-card
+        :title="trip.title"
+        :url_picture="trip.url_picture"
+        :start="trip.start"
+        :end="trip.end"
+        :duration="trip.duration"
+        :id="trip.id"
+        v-for="trip in getTrips"
+        :key="trip.id"
+      ></trip-card>
+    </b-row>
+  </b-container>
 </template>
 
 <script>
