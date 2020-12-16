@@ -124,7 +124,11 @@ export default new Vuex.Store({
         return myJson;
       }
       return {};
-    }
+    },
+    async me({ dispatch}) {
+      const myJson = await dispatch("fetchData", {url: "http://localhost:8000/api/me", method:"GET", body: null});            
+      return myJson;
+    },
   },
   getters: {
     getTrips(state) {
@@ -136,3 +140,4 @@ export default new Vuex.Store({
   },
   modules: {}
 });
+

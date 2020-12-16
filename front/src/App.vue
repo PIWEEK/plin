@@ -21,7 +21,6 @@
             <b-nav-item-dropdown right>
               <!-- Using 'button-content' slot -->
               <template #button-content>
-                <em>{{ username }}</em>
               </template>
               <b-dropdown-item href="#">Profile</b-dropdown-item>
               <b-dropdown-item href="#" v-on:click="singOut">Salir</b-dropdown-item>
@@ -44,9 +43,6 @@
         hasUser(){
           return this.$store.state.currentUser.username != null;
         },
-        username(){
-          return this.$store.state.currentUser.username;
-        },
         showSpinner(){
           return this.$store.state.showSpinner;
         },
@@ -54,7 +50,7 @@
       methods: {
         singOut(){
           this.$store.commit("SET_TRIPS", {});
-          this.$store.commit("SET_CURRENTTRIPS", {});
+          this.$store.commit("SET_CURRENTTRIP", {});
           this.$store.commit("SET_CURRENTUSER", {});
           this.$router.push("/");
         }

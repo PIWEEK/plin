@@ -94,6 +94,8 @@ export default {
   async mounted() {
     if (this.$store.state.currentUser.token === undefined){
       this.$router.push("/");
+    } else if (this.$store.state.currentUser.name === undefined){
+      this.getUserInfo();
     }
   },
   methods: {
@@ -116,6 +118,13 @@ export default {
       await this.$store.dispatch("createTrip", trip);
       await this.$store.dispatch("fetchTripsList");
       this.$store.commit("SET_SHOWSPINNER", false);
+    },
+    async getUserInfo() {
+      const userInfo = await this.$store.dispatch("me", JSON.stringify(this.form));
+      var currentUser = this.$store.state.currentUser;
+      currentUser["name"] = userInfo.first_name;
+      currentUser["id"] = userInfo.id;
+      this.$store.commit("SET_CURRENTUSER", currentUser);    
     }
   }
 };

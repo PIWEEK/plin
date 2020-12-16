@@ -120,13 +120,15 @@
     methods: {
       async onSubmit(event) {
         event.preventDefault();
+        this.$store.commit("SET_SHOWSPINNER", true);
         this.form.email = this.form.username;
         const response = await this.$store.dispatch("login", JSON.stringify(this.form));
         const token = response.access;
+        this.$store.commit("SET_SHOWSPINNER", false);
         if (token === undefined){
-          this.showError = true
+          this.showError = true;          
         } else {
-          this.$store.commit('SET_CURRENTUSER', {username: this.form.username, token: token});
+          this.$store.commit('SET_CURRENTUSER', {username: this.form.username, token: token});          
           this.$router.push("/home");
         }
       },
