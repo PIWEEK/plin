@@ -78,6 +78,12 @@ export default new Vuex.Store({
         await dispatch("fetchData", {url: url, method:"PATCH", body: JSON.stringify({"day": data.dayId})});
       }
     },
+    async createPlan({ dispatch, state }, newPlan) {     
+      if (!state.fakeData) {
+        const url = "http://localhost:8000/api/trips/" + state.currentTrip.id + "/plans/";
+        await dispatch("fetchData", {url: url, method:"POST", body: JSON.stringify(newPlan)});
+      }
+    },
     async login({dispatch, state}, body) {
       const myJson = await dispatch("fetchData", state.fakeData ? {url:"fake/login.json", method:"GET", body: null} : {url: "http://localhost:8000/api/token/", method:"POST", body: body});
       return myJson;

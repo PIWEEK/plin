@@ -213,10 +213,6 @@
           })
 
       },
-      createPlan: function() {
-        console.log('TODO: create plan');
-        this.$bvModal.hide('modal-new-plan');
-      },
       onSubmit: () => {
 
       },
@@ -227,15 +223,37 @@
           await this.$store.dispatch("movePlan", {"planId": planId, "dayId": null});
           await this.$store.dispatch("fetchTrip");
           this.$store.commit("SET_SHOWSPINNER", false);
-        },
-        onDrop (evt) {
-          const planId = evt.dataTransfer.getData('planId');
-          console.log("onDrop "+planId);
-          this.movePlan(planId);
-        },
-        planDropOnChild (planId, position) {          
-          console.log("planDropOnChild: " + planId+ " - position: "+position);
-        }
+      },
+      async createPlan() {                
+        this.$store.commit("SET_SHOWSPINNER", true);
+        const newPlan = {
+                  "name": this.place,
+                  "url_picture": "https://picsum.photos/200",
+                  "price_min": this.minPrice,
+                  "price_max": this.maxPrice,
+                  "duration": this.duration ? this.duration : 1,
+                  "address": this.address,
+                  "telephone": this.telephone,
+                  "opening_hours": this.openingHours,
+                  "comments": this.comments,
+                  "order": 1,
+                  "trip": this.$store.state.currentTrip.id
+                  }
+
+
+        await this.$store.dispatch("createPlan", newPlan);
+        await this.$store.dispatch("fetchTrip");
+        this.$bvModal.hide('modal-new-plan');
+        this.$store.commit("SET_SHOWSPINNER", false);
+      },
+      onDrop (evt) {
+        const planId = evt.dataTransfer.getData('planId');
+        console.log("onDrop "+planId);
+        this.movePlan(planId);
+      },
+      planDropOnChild (planId, position) {          
+        console.log("planDropOnChild: " + planId+ " - position: "+position);
+      }
     }
   }
 </script>
