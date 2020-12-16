@@ -3,11 +3,20 @@
     <b-button block variant="primary" @click="showModal()">
       + Nuevo plan
     </b-button>
-    <plan-card
-      :plan="plan"
-      v-for="plan in $store.state.currentTrip.wishlist"
-      :key="plan.id">
-    </plan-card>
+    <div 
+      style="width: 100%; height: 100%"
+      class="drop-zone"
+      @drop='onDrop($event, 1)' 
+      @dragover.prevent
+      @dragenter.prevent
+      >
+        <plan-card
+          :plan="plan"
+          v-for="plan in $store.state.currentTrip.wishlist"
+          v-on:plan_drop_on_child="planDropOnChild"
+          :key="plan.id">
+        </plan-card>
+    </div>
 
     <b-modal id="modal-new-plan" centered  size="lg" scrollable title="Nuevo plan" hide-footer>
       <b-form>
@@ -212,7 +221,21 @@
 
       },
       onReset: () => {
-      }
+      },
+      async movePlan(planId){
+          this.$store.commit("SET_SHOWSPINNER", true);
+          await this.$store.dispatch("movePlan", {"planId": planId, "dayId": null});
+          await this.$store.dispatch("fetchTrip");
+          this.$store.commit("SET_SHOWSPINNER", false);
+        },
+        onDrop (evt) {
+          const planId = evt.dataTransfer.getData('planId');
+          console.log("onDrop "+planId);
+          this.movePlan(planId);
+        },
+        planDropOnChild (planId, position) {          
+          console.log("planDropOnChild: " + planId+ " - position: "+position);
+        }
     }
   }
 </script>
