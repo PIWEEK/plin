@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.contrib.gis import admin as gis_admin
 
 from trips.models import Trip, Day, Plan
 
@@ -21,9 +22,10 @@ class DayAdmin(admin.ModelAdmin):
 
 
 @admin.register(Plan)
-class PlanAdmin(admin.ModelAdmin):
+class PlanAdmin(gis_admin.OSMGeoAdmin):
     fieldsets = (
-        ('Main', {'fields': ('name', 'url_picture', 'address')}),
+        ('Main', {'fields': ('name', 'url_picture')}),
+        ('Location', {'fields': ('latlon', 'address')}),
         ('Dates', {'fields': ('day', 'duration', 'opening_hours', 'popular_times')}),
         ('Other', {'fields': ('trip', 'order')}),
     )

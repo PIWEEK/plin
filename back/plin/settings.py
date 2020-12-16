@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.gis',
     'rest_framework',
     'corsheaders',
 ]
@@ -78,7 +79,7 @@ WSGI_APPLICATION = 'plin.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
         'NAME': os.environ.get('PLIN_DB_NAME', 'plin'),
         'USER': os.environ.get('PLIN_DB_USER', 'plin'),
         'PASSWORD': os.environ.get('PLIN_DB_PASSWORD', 'plin'),
