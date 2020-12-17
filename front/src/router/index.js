@@ -10,17 +10,26 @@ const routes = [
   {
     path: "/",
     name: "Login",
-    component: Login
+    component: Login,
+    meta: {
+      hideNavigationBar: true
+    }
   },
   {
     path: "/home",
     name: "Home",
-    component: Home
+    component: Home,
+    meta: {
+      hideNavigationBar: false
+    }
   },
   {
     path: "/trip",
     name: "Trip",
-    component: Trip
+    component: Trip,
+    meta: {
+      hideNavigationBar: false
+    }
   },
   {
     path: "/about",

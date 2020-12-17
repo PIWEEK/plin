@@ -1,21 +1,21 @@
 <template>
-<b-container>  
+<b-container>
   <b-container v-if="isLogin">
     <b-row>
-      <b-col>
+      <b-col cols="8">
         <div style="width: 100%; height: 60rem; background: url(/petra.png); font-size:5rem; color: white; display: table;">
         <div style="display: table-cell; vertical-align: middle; padding: 2rem">
           <div>
             "{{ selectedPhraseLogin }}"
           </div>
-        </div>        
+        </div>
         </div>
       </b-col>
-      <b-col>
+      <b-col cols="4">
         <div class="text-center" style="margin-top: 6rem;">
           <b-img src="/logo.png" alt="Plin" style="width: 6rem; margin-right: 1rem"></b-img>
         </div>
-        <div class="text-center" style="font-size: 2.5rem">
+        <div class="text-center" style="font-size: 2rem; margin-bottom: 2rem">
           ¡Hola de nuevo!
         </div>
         <b-alert v-model="showError" variant="danger" dismissible>
@@ -60,7 +60,7 @@
                 </b-form-checkbox>
               </b-col>
               <b-col class="text-right">
-                <b-link href="#">Olvidé mi contraseña</b-link>
+                <!--<b-link href="#">Olvidé mi contraseña</b-link>-->
               </b-col>
             </b-row>
             <b-form-group id="input-group-4" style="margin-top:2rem">
@@ -75,20 +75,20 @@
   </b-container>
   <b-container v-else>
     <b-row>
-      <b-col>
+      <b-col cols="8">
         <div style="width: 100%; height: 60rem; background: url(/turista.png); font-size:5rem; color: white; display: table;">
         <div style="display: table-cell; vertical-align: bottom; padding: 2rem">
           <div>
             "{{ selectedPhraseRegister }}"
           </div>
-        </div>        
+        </div>
         </div>
       </b-col>
-      <b-col>
+      <b-col cols="4">
         <div class="text-center" style="margin-top: 6rem;">
           <b-img src="/logo.png" alt="Plin" style="width: 6rem; margin-right: 1rem"></b-img>
         </div>
-        <div class="text-center" style="font-size: 2.5rem; margin-bottom: 2rem">
+        <div class="text-center" style="font-size: 2rem; margin-bottom: 2rem">
           ¡Qué bien que te unas!
         </div>
         <b-alert v-model="showError" variant="danger" dismissible>
