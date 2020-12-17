@@ -3,10 +3,10 @@
   <b-container v-if="isLogin">
     <b-row>
       <b-col>
-        <div style="width: 100%; height: 60rem; background: url(https://picsum.photos/500/1000); font-size:5rem; color: white; display: table;">
+        <div style="width: 100%; height: 60rem; background: url(/petra.png); font-size:5rem; color: white; display: table;">
         <div style="display: table-cell; vertical-align: middle; padding: 2rem">
           <div>
-            "y te montas tu viaje en un PLÍN"
+            "{{ selectedPhraseLogin }}"
           </div>
         </div>        
         </div>
@@ -76,10 +76,10 @@
   <b-container v-else>
     <b-row>
       <b-col>
-        <div style="width: 100%; height: 60rem; background: url(https://picsum.photos/500/1000); font-size:5rem; color: white; display: table;">
-        <div style="display: table-cell; vertical-align: middle; padding: 2rem">
+        <div style="width: 100%; height: 60rem; background: url(/turista.png); font-size:5rem; color: white; display: table;">
+        <div style="display: table-cell; vertical-align: bottom; padding: 2rem">
           <div>
-            "¿Planificar un viaje entre 8? A mi, PLÍN"
+            "{{ selectedPhraseRegister }}"
           </div>
         </div>        
         </div>
@@ -181,8 +181,23 @@
           remember: false
         },
         showError: false,
-        isLogin: false
+        isLogin: true,
+        phrases: [
+          "y te montas tu viaje en un PLÍN",
+          "¿Planificar un viaje entre 8? A mi, PLÍN",
+          "Y en un PLÍN, ya tenemos el viaje",
+          "¿5 ciudades en tres días? A mi, PLÍN",
+          "¿Gastroturismo o viaje con niños? A mi, PLÍN"
+        ],
+        selectedPhraseLogin: '',
+        selectedPhraseRegister: '',
       }
+    },
+    created() {
+      var idx = Math.floor(Math.random() * this.phrases.length);
+      this.selectedPhraseLogin = this.phrases[idx];
+      idx = Math.floor(Math.random() * this.phrases.length);
+      this.selectedPhraseRegister = this.phrases[idx];
     },
     methods: {
       async onSubmit(event) {
