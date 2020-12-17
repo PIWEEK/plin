@@ -14,6 +14,7 @@
     img-alt="Plan picture" 
     img-left 
     class="w-100 drag-el" 
+    :class="plan.plan_type" 
     style="height: 4rem; margin-top:0.2rem; pointer-events: none;"    
     >
     <b-card-text>
@@ -91,17 +92,39 @@
 }
 
 .card-text {
-  margin-left: 3px;
+  margin-left: 0.3rem;
   line-height: 1.2rem;
   text-overflow: ellipsis;
 }
 
-.card-img-left {
-  border-right: 4px solid #7f7dd2;
+.Culture .card-img-left {
+  border-right: 0.2rem solid #FFF8A6;
   width: 4rem;
 }
 
+.Gastronomy .card-img-left {
+  border-right: 0.2rem solid #F08A8A;
+  width: 4rem;
+}
+
+.Walk .card-img-left {
+  border-right: 0.2rem solid #9FC7EB;
+  width: 4rem;
+}
+
+.Nature .card-img-left {
+  border-right: 0.2rem solid #B8DFC1;
+  width: 4rem;
+}
+
+.Other .card-img-left {
+  border-right: 0.2rem solid #F2BB8B;
+  width: 4rem;
+}
+
+
+
 .drag-el {
-    cursor: grab;
-  }
+  cursor: grab;
+}
 </style>
