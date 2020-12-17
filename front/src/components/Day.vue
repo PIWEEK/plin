@@ -12,6 +12,7 @@
           v-for="plan in currentDay.plans"
           :key="plan.id"
           v-on:plan_drop_on_child="planDropOnChild"
+          v-on="$listeners"
         ></plan-card>
   </div>
 </b-col>
@@ -38,7 +39,7 @@
         },
         planDropOnChild (planId, beforePlan) {    
           this.movePlan(planId, beforePlan);
-        }        
+        }      
       }
     }
 </script>

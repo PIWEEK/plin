@@ -1,5 +1,6 @@
 <template>
 <div
+  v-on:click='onClick'
   draggable
   @drop='onDrop($event, 1)' 
   @dragstart='startDrag($event)' 
@@ -19,7 +20,7 @@
         {{ plan.name }}
       </div>
       <div>
-        <div v-if="plan.price !== undefined">{{ plan.price }}</div>
+        <div v-if="plan.min_price !== undefined">{{ plan.price_min }}</div>
         <div v-else style="color: white">.</div>
       </div>
       <div style="width: 100%">
@@ -68,6 +69,9 @@
           var md5 = require('md5');
           const hash = md5(email)
           return "http://www.gravatar.com/avatar/"+hash;
+        },
+        onClick(){
+          this.$emit('edit_plan', JSON.stringify(this.plan));
         }
       }
     }

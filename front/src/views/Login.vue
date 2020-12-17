@@ -233,7 +233,8 @@
   }
 </script>
 
-<style lang="scss" scoped>
+
+<style lang="scss">
 .btn-primary {
 	color: #fff;
 	background-color: #97d6e0;
@@ -246,5 +247,3 @@
 	border-color: #53cde0;
 }
 </style>
-
-

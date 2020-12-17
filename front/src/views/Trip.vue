@@ -32,13 +32,13 @@
 
     <b-row class="text-center">
       <b-col cols="3">
-        <wishlist></wishlist>
+        <wishlist v-on:edit_plan="editPlan" v-on:create_plan="createPlan"></wishlist>
       </b-col>
       <b-col cols="9">
-      <week></week>
+      <week v-on:edit_plan="editPlan"></week>
       </b-col>
     </b-row>
-
+    <plan ref="currentPlan"></plan>
     <b-modal id="modal-update-url-picture" centered  size="lg" scrollable title="Cambiar imagen" hide-footer>
       <b-form>
         <b-form-group
@@ -61,7 +61,7 @@
 <script>
 import WishList from '@/components/WishList.vue'
 import Week from '@/components/Week.vue'
-// import {_} from 'vue-underscore';
+import Plan from '@/components/Plan.vue';
 
 export default {
   name: "Trip",
@@ -70,7 +70,8 @@ export default {
   },
   components: {
     'wishlist': WishList,
-    'week': Week
+    'week': Week,
+    'plan': Plan
   },
   data() {
     return {
@@ -108,7 +109,17 @@ export default {
       this.$store.commit("SET_SHOWSPINNER", true);
       await this.$store.dispatch("fetchTrip");
       this.$store.commit("SET_SHOWSPINNER", false);
-    }
+    },
+    editPlan (planJson) {   
+      const plan = JSON.parse(planJson);
+      console.log(planJson);
+      this.$refs.currentPlan.fillPlan(plan);
+      this.$bvModal.show('modal-new-plan');
+    },
+    createPlan () {    
+      this.$refs.currentPlan.fillPlan(null);
+      this.$bvModal.show('modal-new-plan');
+    } 
   },
   computed: {
       headerImg () {

@@ -4,8 +4,10 @@
     <day 
        :currentDay="currentDay"          
        :dayNumber=index
-          v-for="(currentDay, index) in $store.state.currentTrip.days"
-          :key="currentDay.id">
+       v-for="(currentDay, index) in $store.state.currentTrip.days"
+       :key="currentDay.id"
+       v-on="$listeners"
+       >
   </day>
   </b-row>
 </b-container>
