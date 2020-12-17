@@ -41,7 +41,7 @@
             </b-col>
           </b-row>
         </b-container>
-        
+
 
         <div v-if="false">
           <b-form-group
@@ -66,13 +66,13 @@
                 <b-col>
                   <b-form-input
                     id="input-min-price"
-                    v-model="plan.min_price"
+                    v-model="plan.price_min"
                     placeholder="Mínimo"/>
                 </b-col>
                 <b-col>
                   <b-form-input
                     id="input-max-price"
-                    v-model="plan.max_price"
+                    v-model="plan.price_max"
                     placeholder="Máximo"/>
                   </b-col>
               </b-row>
@@ -125,8 +125,8 @@
                     </b-col>
                   </b-row>
                 </b-container>
-                
-                
+
+
               </b-form-radio-group>
             </b-form-group>
           </b-col>
@@ -141,7 +141,7 @@
             id="input-address"
             v-model="plan.comments"
             rows="3"
-            placeholder="¿Cuándo es mejor hacer este plan?, ¿hay que acordarse de llevar algo?, 
+            placeholder="¿Cuándo es mejor hacer este plan?, ¿hay que acordarse de llevar algo?,
 ¡Cualquier cosa que te sirva para organizarte mejor! :)"/>
         </b-form-group>
       </b-form>
@@ -154,7 +154,7 @@
         </b-button>
         <b-button size="sm" variant="primary" @click="createOrUpdatePlan()">
           Guardar cambios
-        </b-button>        
+        </b-button>
     </template>
 
 
@@ -182,7 +182,7 @@
         return this.plan.id == null ? 'Alta de plan' : 'Detalles de Plan';
       }
     },
-    methods: {      
+    methods: {
       searchPlaces: _.debounce(function(){
         console.log("================>"+this.plan.name);
         fetch(`http://localhost:8000/api/trips/search?place=${this.plan.name}`, {

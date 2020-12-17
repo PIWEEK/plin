@@ -2,32 +2,36 @@
 <div
   v-on:click='onClick'
   draggable
-  @drop='onDrop($event, 1)' 
-  @dragstart='startDrag($event)' 
+  @drop='onDrop($event, 1)'
+  @dragstart='startDrag($event)'
   @dragover.prevent
   @dragleave='dragLeave($event)'
   @dragenter='dragEnter($event)'>
   <div v-if="isDraggingOnMe" style="height: 4rem; border: 1px dashed black; pointer-events: none;">
   </div>
-  <b-card 
-    :img-src="plan.url_picture ? plan.url_picture : '/logo.png'" 
-    img-alt="Plan picture" 
-    img-left 
-    class="w-100 drag-el" 
-    :class="plan.plan_type" 
-    style="height: 4rem; margin-top:0.2rem; pointer-events: none;"    
+  <b-card
+    :img-src="plan.url_picture ? plan.url_picture : '/logo.png'"
+    img-alt="Plan picture"
+    img-left
+    class="w-100 drag-el"
+    :class="plan.plan_type"
+    style="height: 4rem; margin-top:0.2rem; pointer-events: none;"
     >
     <b-card-text>
       <div>
         {{ plan.name }}
       </div>
       <div>
-        <div v-if="plan.min_price !== undefined">{{ plan.price_min }}</div>
+        <div v-if="plan.price_min || plan.price_max ">
+          <span v-if="plan.price_min">{{ plan.price_min }}</span>
+          <span v-if="plan.price_min && plan.price_max"> - </span>
+          <span v-if="plan.price_max">{{ plan.price_max }}</span>
+        </div>
         <div v-else style="color: white">.</div>
       </div>
       <div style="width: 100%">
-        <div style="width: 85%; display: inline-block">🕑 {{ plan.duration }}h</div>
-        <div style="width: 15%; display: inline-block; text-align: center"><b-img :src="gravatar('pablo.alba@kaleidos.net')" style="height:1.1rem;" rounded="circle"></b-img></div>
+        <div style="width: 80%; display: inline-block">🕑 {{ plan.duration }}h</div>
+        <div style="width: 20%; display: inline-block; text-align: right; position: relative; top: -0.2rem; left: -0.2rem"><b-img :src="gravatar('pablo.alba@kaleidos.net')" style="height:1.1rem;" rounded="circle"></b-img></div>
       </div>
 
     </b-card-text>
@@ -35,7 +39,7 @@
 </div>
 </template>
 
-<script>    
+<script>
     export default {
       props: ["plan"],
       data() {
@@ -48,21 +52,21 @@
           return this.draggingOnMe;
         }
       },
-      methods: {        
+      methods: {
         startDrag(evt) {
           evt.dataTransfer.dropEffect = 'move';
           evt.dataTransfer.effectAllowed = 'move';
           evt.dataTransfer.setData('planId', this.plan.id);
         },
         dragEnter() {
-          this.draggingOnMe = true;      
+          this.draggingOnMe = true;
         },
         dragLeave() {
-          this.draggingOnMe = false;          
+          this.draggingOnMe = false;
         },
         onDrop (evt) {
           evt.stopPropagation();
-          this.draggingOnMe = false;    
+          this.draggingOnMe = false;
           const plan = evt.dataTransfer.getData('planId');
           console.log("Drop over card "+plan);
           this.$emit('plan_drop_on_child', plan, this.plan.id);
@@ -85,10 +89,10 @@
   flex: 0.1 1 auto;
   font-size: 14px;
   text-align: left;
-  white-space: nowrap; 
-  width: 100%; 
+  white-space: nowrap;
+  width: 100%;
   overflow: hidden;
-  text-overflow: ellipsis; 
+  text-overflow: ellipsis;
 }
 
 .card-text {
