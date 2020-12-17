@@ -2,11 +2,18 @@
   <b-container>
     <div class="d-flex align-items-center header" :style="headerImg">
       <b-container>
-        <div class="w-100"><h1>{{this.$store.state.currentTrip.title}}</h1></div>
+        <div class="w-100">
+          <h1
+            class="editTitle"
+            contenteditable="true"
+            id="trip-title"
+            v-text="editTitle"
+            @blur="onTitleEdit"
+            @keydown.enter="endTitleEdit"
+          />
+        </div>
       </b-container>
     </div>
-
-
     <b-container>
       <b-dropdown size="lg"  variant="link" toggle-class="text-decoration-none" no-caret>
         <template #button-content>
@@ -33,6 +40,7 @@
 <script>
 import WishList from '@/components/WishList.vue'
 import Week from '@/components/Week.vue'
+// import {_} from 'vue-underscore';
 
 export default {
   name: "Trip",
@@ -45,9 +53,18 @@ export default {
   },
   data() {
     return {
+      editTitle: this.$store.state.currentTrip.title
     };
   },
   methods: {
+    onTitleEdit(evt){
+      var src = evt.target.innerText
+      this.editTitle = src
+    },
+    endTitleEdit(){
+      this.$el.querySelector('.editTitle').blur()
+      this.$store.dispatch("updateTrip", {tripId: this.$store.state.currentTrip.id, data: { title: this.editTitle }});
+    },
     async deleteTrip() {
       this.$store.commit("SET_SHOWSPINNER", true);
       await this.$store.dispatch("deleteTrip", this.$store.state.currentTrip.id);
@@ -75,7 +92,7 @@ export default {
 <style lang="scss" scoped>
 
 .header {
-  color: white;  
+  color: white;
   background-color: #cccccc; /* Used if the image is unavailable */
   height: 8rem; /* You must set a specified height */
   background-position: center; /* Center the image */

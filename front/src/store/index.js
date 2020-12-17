@@ -55,7 +55,6 @@ export default new Vuex.Store({
           if (!data.anonymous){
             headers['Authorization'] = 'JWT '+ context.state.currentUser.token;
           }
-
           const res = await fetch(data.url, {
             method: data.method,
             body: data.body,
@@ -86,10 +85,10 @@ export default new Vuex.Store({
       if (!state.fakeData) {
         const url = "http://localhost:8000/api/trips/" + state.currentTrip.id + "/plans/" + data.planId +"/";
         var planData = {}
-        if (data.dayId !== null){        
+        if (data.dayId !== null){
           planData["day_to"] = data.dayId
         }
-        if (data.beforePlan !== null){        
+        if (data.beforePlan !== null){
           planData["before_plan"] = data.beforePlan
         }
 
@@ -100,6 +99,14 @@ export default new Vuex.Store({
       if (!state.fakeData) {
         const url = "http://localhost:8000/api/trips/";
         await dispatch("fetchData", {url: url, method:"POST", body: JSON.stringify(newTrip)});
+      }
+    },
+    async updateTrip({ dispatch, commit, state }, { tripId, data }) {
+      if (!state.fakeData) {
+        const url = `http://localhost:8000/api/trips/${tripId}/`;
+        await dispatch("fetchData", {url: url, method:"PATCH", body: JSON.stringify(data)});
+        const currentTrip = {...state.currentTrip, ...data};
+        commit("SET_CURRENTTRIP", currentTrip);
       }
     },
     async deleteTrip({ dispatch, state }, tripId) {
