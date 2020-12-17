@@ -5,6 +5,7 @@ from users.serializers import UserSerializer
 
 
 class PlanSerializer(serializers.ModelSerializer):
+    created_by = UserSerializer(required=False)
 
     class Meta:
         model = Plan
