@@ -25,7 +25,7 @@ class LightTripSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Trip
-        fields = ("id", "duration", "title", "url_picture", "members")
+        fields = ("id", "duration", "title", "url_picture", "members", "from_date", "to_date")
 
 
 class TripSerializer(serializers.ModelSerializer):

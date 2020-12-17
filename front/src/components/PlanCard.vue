@@ -12,7 +12,8 @@
   <b-card 
     :img-src="plan.url_picture ? plan.url_picture : '/logo.png'" 
     img-alt="Plan picture" 
-    img-left class="w-100 drag-el" 
+    img-left 
+    class="w-100 drag-el" 
     style="height: 4rem; margin-top:0.2rem; pointer-events: none;"    
     >
     <b-card-text>

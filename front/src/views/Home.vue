@@ -62,15 +62,15 @@
               </b-col>
             </b-row>
           </b-form-group>
-          <b-button variant="primary" :disabled="!validForm" block @click="createTrip()">Comenzar</b-button>
+          <b-button variant="primary" class="create-button" :disabled="!validForm" block @click="createTrip()">Comenzar</b-button>
         </b-form>
       </b-container>
     </b-container>
 
-    <h1 style="margin-top: 5rem">Próximos Viajes</h1>
-    <trips />
-    <h1 style="margin-top: 5rem">Viajes pasados</h1>
-    <trips />
+    <h1 v-if="$store.state.trips.length > 0" style="margin-top: 5rem">Próximos Viajes</h1>
+    <trips v-if="$store.state.trips.length > 0"/>
+    <h1 v-if="$store.state.trips.length > 0" style="margin-top: 5rem">Viajes pasados</h1>
+    <trips v-if="$store.state.trips.length > 0" />
   </b-container>
 </template>
 
@@ -224,7 +224,11 @@ export default {
     background-color: rgba(255, 255, 255, 0.8);
     border-radius: 30px;
     max-width: 630px;
-    margin: 0;
+    margin: 20px 30px;
     padding: 28px 52px ;
+  }
+
+  .create-button {
+    margin-top: 40px;
   }
 </style>

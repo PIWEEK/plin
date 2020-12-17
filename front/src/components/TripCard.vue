@@ -1,21 +1,20 @@
 <template>
 <div>
   <b-card
-    :img-src="url_picture"
-    img-alt="Image"
-    img-top
     tag="article"
     style="width: 15rem; height:20rem; margin: 1rem; cursor: pointer"
     class="mb-2"
     v-on:click="selectTrip"
   >
+    <b-card-img :src="url_picture" alt="Image" center style="object-fit: scale-down;"></b-card-img>
+
     <b-card-text>
       <h4 style="height: 4rem">
         {{ title }}
       </h4>
       <div>
-        <span v-if="start !== undefined">Del {{ start }} </span>
-        <span v-if="end !== undefined">al {{ end }} </span>
+        <span v-if="start">Del {{ start }} </span>
+        <span v-if="end">al {{ end }} </span>
         ({{ duration }} días)
       </div>
     </b-card-text>
@@ -32,7 +31,6 @@
           this.$router.push("/trip");
         }
       }
-      
     }
 </script>
 

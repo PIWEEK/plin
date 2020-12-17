@@ -4,8 +4,8 @@
       <trip-card
         :title="trip.title"
         :url_picture="trip.url_picture"
-        :start="trip.start"
-        :end="trip.end"
+        :start="trip.from_date"
+        :end="trip.to_date"
         :duration="trip.duration"
         :id="trip.id"
         v-for="trip in getTrips"
@@ -26,6 +26,7 @@ export default {
   },
   data() {
     return {
+
     };
   },
   components: { "trip-card": TripCard },

@@ -4,10 +4,8 @@
     <b-row>
       <b-col cols="8">
         <div style="width: 100%; height: 60rem; background: url(/petra.png); font-size:5rem; color: white; display: table;">
-        <div style="display: table-cell; vertical-align: middle; padding: 2rem">
-          <div>
-            "{{ selectedPhraseLogin }}"
-          </div>
+        <div style="display: table-cell; vertical-align: middle; padding: 2rem; font-weight: bold">
+          <div v-html="selectedPhraseLogin"/>
         </div>
         </div>
       </b-col>
@@ -77,10 +75,8 @@
     <b-row>
       <b-col cols="8">
         <div style="width: 100%; height: 60rem; background: url(/turista.png); font-size:5rem; color: white; display: table;">
-        <div style="display: table-cell; vertical-align: bottom; padding: 2rem">
-          <div>
-            "{{ selectedPhraseRegister }}"
-          </div>
+        <div style="display: table-cell; vertical-align: bottom; padding: 2rem; font-weight: bold">
+          <div v-html="selectedPhraseRegister"/>
         </div>
         </div>
       </b-col>
@@ -142,8 +138,6 @@
               ></b-form-input>
             </b-form-group>
 
-            
-
             <div>
                 <b-form-checkbox
                   id="checkbox-1"
@@ -177,17 +171,17 @@
           email: '',
           password: '',
           password2: '',
-          name: '',          
+          name: '',
           remember: false
         },
         showError: false,
         isLogin: true,
         phrases: [
-          "y te montas tu viaje en un PLÍN",
-          "¿Planificar un viaje entre 8? A mi, PLÍN",
+          "y te montas tu viaje...<br/>En un PLÍN",
+          "¿Planificar un viaje entre 8?...<br/>A mí, PLÍN",
           "Y en un PLÍN, ya tenemos el viaje",
-          "¿5 ciudades en tres días? A mi, PLÍN",
-          "¿Gastroturismo o viaje con niños? A mi, PLÍN"
+          "¿5 ciudades en tres días?...<br/>A mí, PLÍN",
+          "¿Gastroturismo o viaje con niños?...<br/>A mí, PLÍN"
         ],
         selectedPhraseLogin: '',
         selectedPhraseRegister: '',
