@@ -25,7 +25,7 @@
         </template>
         <!--<b-dropdown-item href="#">Duplicar viaje</b-dropdown-item>-->
         <b-dropdown-item-button @click="deleteTrip()">Borrar viaje</b-dropdown-item-button>
-        <!--<b-dropdown-item href="#">Mover todos los planes al listado</b-dropdown-item>-->
+        <b-dropdown-item-button @click="resetTrip()">Mover todos los planes al listado</b-dropdown-item-button>
       </b-dropdown>
 
     </b-container>
@@ -100,6 +100,12 @@ export default {
       await this.$store.dispatch("deleteTrip", this.$store.state.currentTrip.id);
       await this.$store.dispatch("fetchTripsList");
       this.$router.push("/home");
+      this.$store.commit("SET_SHOWSPINNER", false);
+    },
+    async resetTrip() {
+      this.$store.commit("SET_SHOWSPINNER", true);
+      await this.$store.dispatch("resetTrip", this.$store.state.currentTrip.id);
+      await this.$store.dispatch("fetchTrip");
       this.$store.commit("SET_SHOWSPINNER", false);
     },
     async getRecords() {

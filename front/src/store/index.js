@@ -115,6 +115,12 @@ export default new Vuex.Store({
         await dispatch("fetchData", {url: url, method:"DELETE", body: {}});
       }
     },
+    async resetTrip({ dispatch, state }, tripId) {
+      if (!state.fakeData) {
+        const url = `http://localhost:8000/api/trips/${tripId}/reset/`;
+        await dispatch("fetchData", {url: url, method:"POST", body: {}});
+      }
+    },
     async createPlan({ dispatch, state }, newPlan) {
       if (!state.fakeData) {
         const url = "http://localhost:8000/api/trips/" + state.currentTrip.id + "/plans/";
