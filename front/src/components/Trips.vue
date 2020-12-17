@@ -1,5 +1,5 @@
 <template>
-  <b-container>
+  <b-container fluid p-0>
     <b-row align-v="center">
       <trip-card
         :title="trip.title"
