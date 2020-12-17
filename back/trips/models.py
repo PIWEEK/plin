@@ -69,6 +69,17 @@ class Plan(models.Model):
     def __str__(self):
         return self.name
 
+    @property
+    def distance_to_next(self):
+        if self.latlon:
+            next_point = Plan.objects.filter(order__gt=self.order).order_by('order').first()
+            if next_point and next_point.latlon:
+                point1 = self.latlon
+                point2 = next_point.latlon
+                return point1.distance(point2) * 100
+
+        return None
+
 
 @receiver(models.signals.post_save, sender=Trip)
 def add_days_on_trip_creation(sender, instance, created, **kwargs):
