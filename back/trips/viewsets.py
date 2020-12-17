@@ -119,13 +119,14 @@ class PlanViewSet(viewsets.ModelViewSet):
 
         else:
             day, order = None, None
-            plans_to_reorder = Plan.objects.filter(
-                day=moving_plan.day,
-                order__gt=moving_plan.order
-            ).order_by('order')
-            for i, plan in enumerate(plans_to_reorder):
-                plan.order = plan.order - 1
-                plan.save()
+            if moving_plan.day is not None:
+                plans_to_reorder = Plan.objects.filter(
+                    day=moving_plan.day,
+                    order__gt=moving_plan.order
+                ).order_by('order')
+                for i, plan in enumerate(plans_to_reorder):
+                    plan.order = plan.order - 1
+                    plan.save()
 
         moving_plan.day = day
         moving_plan.order = order
