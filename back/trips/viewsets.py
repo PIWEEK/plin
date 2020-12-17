@@ -45,6 +45,16 @@ class TripViewSet(viewsets.ModelViewSet):
         res = requests.get(url)
         return Response(res.json())
 
+    @action(detail=False, methods=['get'])
+    def photo(self, request):
+        photoreference = request.query_params['photoreference']
+        maxwidth = request.query_params['maxwidth']
+        url = f"https://maps.googleapis.com/maps/api/place/photo?maxwidth={maxwidth}&photoreference={photoreference}&key={settings.GOOGLE_API_KEY}"
+        res = requests.get(url)
+        return Response({
+          "url": res.url
+        })
+
     @action(detail=True, methods=['post'])
     def invite(self, request, pk=None):
         trip = Trip.objects.get(pk=pk)

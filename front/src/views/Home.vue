@@ -9,10 +9,20 @@
             label="Viaje"
             label-for="input-travel"
           >
-            <b-form-input
-            id="input-travel"
-            v-model="title"
-            placeholder="¡Ponle un título a tu viaje!"/>
+            <vue-type-ahead
+              id="input-travel"
+              class="mb-4"
+              v-model="place"
+              :data="places"
+              :serializer="item => item.name"
+              @hit="onSelectedPlace($event)"
+              placeholder="¡Ponle un título a tu viaje!"
+              @input="searchPlaces"
+              :showAllResults="true"
+              :maxMatches="20"
+              :disableSort="true"
+            />
+
           </b-form-group>
 
           <b-form-group
@@ -65,24 +75,30 @@
 </template>
 
 <script>
-import Trips from '@/components/Trips.vue'
+import Trips from '@/components/Trips.vue';
+import VueTypeaheadBootstrap from 'vue-typeahead-bootstrap';
+import {_} from 'vue-underscore';
 
 export default {
   name: "Home",
   components: {
-    'trips': Trips
+    'trips': Trips,
+    'vue-type-ahead': VueTypeaheadBootstrap
   },
   data() {
     return {
-      title: null,
+      place: null,
       initialDate: null,
       endDate: null,
-      noDates: false
+      noDates: false,
+      urlPicture: null,
+      duration: null,
+      places: []
     }
   },
   computed: {
     validForm: function() {
-      if (!this.title) {
+      if (!this.place) {
         return false
       }
       if (this.noDates) {
@@ -99,22 +115,83 @@ export default {
     }
   },
   methods: {
+    searchPlaces: _.debounce(function(){
+      fetch(`http://localhost:8000/api/trips/search?place=${this.place}`, {
+          headers: {
+            'Authorization': 'JWT '+ this.$store.state.currentUser.token,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          }
+        })
+        .then(response => {
+          return response.json();
+        })
+        .then(data => {
+          this.places = data.results
+        })
+    }, 500),
+    onSelectedPlace: function(place) {
+      this.selectedPlace = place;
+      this.place = place.name;
+      this.address = place.formatted_address;
+      this.telephone = place.telephone;
+
+      fetch(`http://localhost:8000/api/trips/locate?place_id=${place.place_id}`, {
+          headers: {
+            'Authorization': 'JWT '+ this.$store.state.currentUser.token,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          }
+        })
+        .then(response => {
+          return response.json();
+        })
+        .then(data => {
+          var maxRatio = 0;
+          var bestPhoto = null;
+          if (data.result.photos) {
+            data.result.photos.forEach(photo => {
+              const ratio = photo.width / photo.height;
+              if (ratio > maxRatio) {
+                maxRatio = ratio,
+                bestPhoto = photo;
+              }
+            });
+
+            fetch(`http://localhost:8000/api/trips/photo?maxwidth=1600&photoreference=${bestPhoto.photo_reference}`, {
+                headers: {
+                  'Authorization': 'JWT '+ this.$store.state.currentUser.token,
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json'
+                }
+              })
+              .then(photoResponse => {
+                return photoResponse.json();
+              })
+              .then(photoData => {
+                this.urlPicture = photoData.url;
+              });
+          }
+        })
+    },
     createTrip: async function() {
-      var duration = 4;
+      this.duration = 3;
       if (this.initialDate && this.endDate) {
         const dt1 = new Date(this.initialDate);
         const dt2 = new Date(this.endDate);
-        duration = Math.floor((Date.UTC(dt2.getFullYear(), dt2.getMonth(), dt2.getDate()) - Date.UTC(dt1.getFullYear(), dt1.getMonth(), dt1.getDate()) ) /(1000 * 60 * 60 * 24));
+        this.duration = Math.floor((Date.UTC(dt2.getFullYear(), dt2.getMonth(), dt2.getDate()) - Date.UTC(dt1.getFullYear(), dt1.getMonth(), dt1.getDate()) ) /(1000 * 60 * 60 * 24));
       }
 
       const trip = {
-        "duration": duration,
+        "duration": this.duration,
         "from_date": this.initialDate,
-        "title": this.title,
-        "to_date": this.endDate
+        "title": this.place,
+        "to_date": this.endDate,
+        "url_picture": this.urlPicture
       }
 
       this.$store.commit("SET_SHOWSPINNER", true);
+
       await this.$store.dispatch("createTrip", trip);
       await this.$store.dispatch("fetchTripsList");
       this.$store.commit("SET_SHOWSPINNER", false);
@@ -124,7 +201,7 @@ export default {
       var currentUser = this.$store.state.currentUser;
       currentUser["name"] = userInfo.first_name;
       currentUser["id"] = userInfo.id;
-      this.$store.commit("SET_CURRENTUSER", currentUser);    
+      this.$store.commit("SET_CURRENTUSER", currentUser);
     }
   }
 };

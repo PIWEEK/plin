@@ -156,7 +156,10 @@
         maxPrice: null,
         duration: null,
         comments: null,
-        places: []
+        urlPicture: "https://picsum.photos/500",
+        places: [],
+        googleId: null,
+        latlon: null
       }
     },
     methods: {
@@ -174,8 +177,6 @@
         this.$bvModal.show('modal-new-plan');
       },
       searchPlaces: _.debounce(function(){
-        console.log("this.$store.state.currentUser", this.$store.state.currentUser.token);
-
         fetch(`http://localhost:8000/api/trips/search?place=${this.place}`, {
             headers: {
               'Authorization': 'JWT '+ this.$store.state.currentUser.token,
@@ -207,11 +208,49 @@
             return response.json();
           })
           .then(data => {
+            var bestRatio = null;
+            var bestPhoto = null;
+            if (data.result.photos) {
+              data.result.photos.forEach(photo => {
+                const ratio = (photo.width / photo.height) - 1;
+                console.log(photo, ratio);
+                if (!bestRatio || (ratio > 0 && ratio < bestRatio)) {
+                  bestRatio = ratio,
+                  bestPhoto = photo;
+                }
+              });
+
+              fetch(`http://localhost:8000/api/trips/photo?maxwidth=500&photoreference=${bestPhoto.photo_reference}`, {
+                  headers: {
+                    'Authorization': 'JWT '+ this.$store.state.currentUser.token,
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                  }
+                })
+                .then(photoResponse => {
+                  return photoResponse.json();
+                })
+                .then(photoData => {
+                  this.urlPicture = photoData.url;
+                });
+            }
+
             this.address = data.result.formatted_address;
             this.telephone = data.result.international_phone_number;
-            this.openingHours = data.result.opening_hours.weekday_text.join("\n");
-          })
+            if (data.result.opening_hours) {
+              this.openingHours = data.result.opening_hours.weekday_text.join("\n");
+            }
 
+            if (data.result.geometry) {
+              this.latlon = {
+                type: "Point",
+                coordinates: [
+                  data.result.geometry.location.lat,
+                  data.result.geometry.location.lng
+                ]
+              }
+            }
+          })
       },
       onSubmit: () => {
 
@@ -224,11 +263,11 @@
           await this.$store.dispatch("fetchTrip");
           this.$store.commit("SET_SHOWSPINNER", false);
         },
-      async createPlan() {                
+      async createPlan() {
         this.$store.commit("SET_SHOWSPINNER", true);
         const newPlan = {
                   "name": this.place,
-                  "url_picture": "https://picsum.photos/200",
+                  "url_picture": this.urlPicture,
                   "price_min": this.minPrice,
                   "price_max": this.maxPrice,
                   "duration": this.duration ? this.duration : 1,
@@ -237,7 +276,9 @@
                   "opening_hours": this.openingHours,
                   "comments": this.comments,
                   "order": 1,
-                  "trip": this.$store.state.currentTrip.id
+                  "trip": this.$store.state.currentTrip.id,
+                  "google_id": this.googleId,
+                  "latlon": this.latlon
                   }
 
 
