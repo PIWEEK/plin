@@ -2,31 +2,33 @@
     <b-modal id="modal-new-plan" centered  size="lg" scrollable :title="getTitle" style="height: 50rem">
       <b-form style="width: 90%; margin-left: 5%">
 
+        <b-form-group
+            id="input-group-plan"
+            label="Plan"
+            label-for="input-address"
+          >
+            <vue-type-ahead
+              id="input-name"
+              class="mb-4"
+              v-model="plan.name"
+              :data="places"
+              :serializer="item => item.name"
+              @hit="onSelectedPlace($event)"
+              placeholder="Escribe o busca el nombre del lugar, dirección o coordenadas"
+              @input="searchPlaces"
+              :showAllResults="true"
+              :maxMatches="20"
+              :disableSort="true"
+            />
+          </b-form-group>
+
         <b-container >
           <b-row style="height: 12rem">
             <b-col cols="4" v-if="plan.id != null">
               <b-img :src="plan.url_picture" style="height: 11rem; width: 11rem"></b-img>
             </b-col>
             <b-col>
-              <b-form-group
-                id="input-group-plan"
-                label="Plan"
-                label-for="input-address"
-              >
-                <vue-type-ahead
-                  id="input-name"
-                  class="mb-4"
-                  v-model="plan.name"
-                  :data="places"
-                  :serializer="item => item.name"
-                  @hit="onSelectedPlace($event)"
-                  placeholder="Escribe o busca el nombre del lugar, dirección o coordenadas"
-                  @input="searchPlaces"
-                  :showAllResults="true"
-                  :maxMatches="20"
-                  :disableSort="true"
-                />
-              </b-form-group>
+
 
               <b-form-group
                 id="input-group-address"
@@ -38,23 +40,23 @@
                   v-model="plan.address"
                   placeholder="Escribe la dirección"/>
               </b-form-group>
+
+              <b-form-group
+                id="input-group-telephone"
+                label="Teléfono"
+                label-for="input-telephone"
+              >
+                <b-form-input
+                  id="input-telephone"
+                  v-model="plan.telephone"
+                  placeholder="Escribe el teléfono"/>
+              </b-form-group>
             </b-col>
           </b-row>
         </b-container>
 
 
-        <div v-if="false">
-          <b-form-group
-            id="input-group-telephone"
-            label="Teléfono"
-            label-for="input-telephone"
-          >
-            <b-form-input
-              id="input-telephone"
-              v-model="plan.telephone"
-              placeholder="Escribe el teléfono"/>
-          </b-form-group>
-        </div>
+
         <b-row>
           <b-col>
             <b-form-group
