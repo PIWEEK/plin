@@ -91,7 +91,7 @@ export default {
       initialDate: null,
       endDate: null,
       noDates: false,
-      urlPicture: `${window.location.origin}/images/default-plan-${1 + Math.floor(Math.random() * Math.floor(9))}.png`,
+      urlPicture: `${window.location.origin}/images/default-trip-${1 + Math.floor(Math.random() * Math.floor(9))}.png`,
       duration: null,
       places: []
     }
