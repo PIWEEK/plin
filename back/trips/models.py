@@ -36,6 +36,13 @@ class Day(models.Model):
         return f"{self.trip}: {self.order}"
 
 
+class PlanType(models.TextChoices):
+    CULTURE = 'Culture', 'Culture'
+    GASTRONOMY = 'Gastronomy', 'Gastronomy'
+    WALK = 'Walk', 'Walk'
+    OTHER = 'Other', 'Other'
+
+
 class Plan(models.Model):
     address = models.CharField(max_length=100, blank=True, null=True)
     comments = models.TextField(blank=True, null=True)
@@ -44,13 +51,14 @@ class Plan(models.Model):
     day = models.ForeignKey(Day, related_name="plans", blank=True, null=True, on_delete=models.SET_NULL)
     duration = models.FloatField()
     google_id = models.CharField(max_length=100, blank=True, null=True)
+    latlon = gis_models.PointField(geography=True, blank=True, null=True)
     name = models.CharField(max_length=100, blank=False, null=False)
-    price_min = models.CharField(max_length=100, blank=True, null=True)
-    price_max = models.CharField(max_length=100, blank=True, null=True)
     opening_hours = models.CharField(max_length=500, blank=True, null=True)
     order = models.IntegerField(blank=True, null=True)
-    latlon = gis_models.PointField(geography=True, blank=True, null=True)
+    plan_type = models.CharField( max_length=20, choices=PlanType.choices, default=PlanType.OTHER)
     popular_times = models.URLField(blank=True, null=True)
+    price_max = models.CharField(max_length=100, blank=True, null=True)
+    price_min = models.CharField(max_length=100, blank=True, null=True)
     telephone = models.CharField(max_length=100, blank=True, null=True)
     trip = models.ForeignKey(Trip, related_name="plans", on_delete=models.CASCADE)
     url_picture = models.URLField(blank=True, null=True)
