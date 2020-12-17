@@ -18,15 +18,28 @@
         </div>
       </b-container>
     </div>
-    <b-container>
-      <b-dropdown size="lg"  variant="link" toggle-class="text-decoration-none" no-caret>
-        <template #button-content>
-           <b-icon-gear variant="dark"/>
-        </template>
-        <!--<b-dropdown-item href="#">Duplicar viaje</b-dropdown-item>-->
-        <b-dropdown-item-button @click="deleteTrip()">Borrar viaje</b-dropdown-item-button>
-        <b-dropdown-item-button @click="resetTrip()">Mover todos los planes al listado</b-dropdown-item-button>
-      </b-dropdown>
+    <b-container style="box-shadow: 1px 2px lightgray; margin-bottom:0.3rem">
+      <b-row align-v="center">
+        <b-col>
+          <b-dropdown size="lg"  variant="link" toggle-class="text-decoration-none" no-caret>
+            <template #button-content>
+              <b-icon-gear variant="dark"/>
+            </template>
+            <!--<b-dropdown-item href="#">Duplicar viaje</b-dropdown-item>-->
+            <b-dropdown-item-button @click="deleteTrip()">Borrar viaje</b-dropdown-item-button>
+            <b-dropdown-item-button @click="resetTrip()">Mover todos los planes al listado</b-dropdown-item-button>
+          </b-dropdown>
+        </b-col>
+        <b-col>
+            <b-icon-plus-circle variant="dark" style="width: 1.5rem; height: 1.5rem; margin-right: 1rem" v-b-tooltip.hover title="Añadir un día"/>
+            <b-icon-calendar-3 variant="dark" style="width: 1.5rem; height: 1.5rem; margin-right: 1rem" v-b-tooltip.hover title="Editar fechas y número de días"/>
+            <b-icon-house-door variant="dark" style="width: 1.5rem; height: 1.5rem;" v-b-tooltip.hover title="Añadir o editar alojamientos"/>
+        </b-col>
+        <b-col style="text-align: right">
+          <b-img :src="gravatar(member.email)" style="height:2rem;margin-right:1rem" rounded="circle" v-for="member in this.$store.state.currentTrip.members" :key="member.id"></b-img>
+          <b-button variant="outline-primary">Añadir acompañante</b-button>
+        </b-col>
+      </b-row>
 
     </b-container>
 
@@ -130,6 +143,11 @@ export default {
       const plan = JSON.parse(planJson);
       await this.$refs.currentPlan.duplicatePlan(plan);
       this.$store.commit("SET_SHOWSPINNER", false);
+    },
+    gravatar(email) {
+      var md5 = require('md5');
+      const hash = md5(email)
+      return "http://www.gravatar.com/avatar/"+hash;
     }
   },
   computed: {

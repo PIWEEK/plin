@@ -32,7 +32,7 @@
       </div>
       <div style="width: 100%">
         <div style="width: 80%; display: inline-block">🕑 {{ plan.duration }}h</div>
-        <div style="width: 20%; display: inline-block; text-align: right; position: relative; top: -0.2rem; left: -0.2rem"><b-img :src="gravatar('pablo.alba@kaleidos.net')" style="height:1.1rem;" rounded="circle"></b-img></div>
+        <div style="width: 20%; display: inline-block; text-align: right; position: relative; top: -0.2rem; left: -0.2rem"><b-img :src="gravatar(plan.created_by.email)" style="height:1.1rem;" rounded="circle"></b-img></div>
       </div>
 
 
