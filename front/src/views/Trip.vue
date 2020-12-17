@@ -32,10 +32,10 @@
 
     <b-row class="text-center">
       <b-col cols="3">
-        <wishlist v-on:edit_plan="editPlan" v-on:create_plan="createPlan"></wishlist>
+        <wishlist v-on:edit_plan="editPlan" v-on:create_plan="createPlan" v-on:duplicate_plan="duplicatePlan"></wishlist>
       </b-col>
       <b-col cols="9">
-      <week v-on:edit_plan="editPlan"></week>
+      <week v-on:edit_plan="editPlan" v-on:duplicate_plan="duplicatePlan"></week>
       </b-col>
     </b-row>
     <plan ref="currentPlan"></plan>
@@ -110,16 +110,21 @@ export default {
       await this.$store.dispatch("fetchTrip");
       this.$store.commit("SET_SHOWSPINNER", false);
     },
-    editPlan (planJson) {   
+    editPlan (planJson) {
       const plan = JSON.parse(planJson);
-      console.log(planJson);
       this.$refs.currentPlan.fillPlan(plan);
       this.$bvModal.show('modal-new-plan');
     },
-    createPlan () {    
+    createPlan () {
       this.$refs.currentPlan.fillPlan(null);
       this.$bvModal.show('modal-new-plan');
-    } 
+    },
+    async duplicatePlan (planJson) {
+      this.$store.commit("SET_SHOWSPINNER", true);
+      const plan = JSON.parse(planJson);
+      await this.$refs.currentPlan.duplicatePlan(plan);
+      this.$store.commit("SET_SHOWSPINNER", false);
+    }
   },
   computed: {
       headerImg () {

@@ -86,7 +86,7 @@ export default new Vuex.Store({
         const url = "http://localhost:8000/api/trips/" + state.currentTrip.id + "/plans/" + data.planId +"/move/";
         var planData = {}
         if (data.dayId !== null){
-          planData["day_to"] = data.dayId          
+          planData["day_to"] = data.dayId
           if (data.beforePlan !== null){
             planData["before_plan"] = data.beforePlan
           }
@@ -127,6 +127,12 @@ export default new Vuex.Store({
         await dispatch("fetchData", {url: url, method:"PATCH", body: JSON.stringify(plan)});
       }
     },
+    async deletePlan({ dispatch, state }, planId) {
+      if (!state.fakeData) {
+        const url = "http://localhost:8000/api/trips/" + state.currentTrip.id + "/plans/"+planId+"/";
+        await dispatch("fetchData", {url: url, method:"DELETE", body: null});
+      }
+    },
     async login({dispatch, state}, body) {
       const myJson = await dispatch("fetchData", state.fakeData ? {url:"fake/login.json", method:"GET", body: null} : {url: "http://localhost:8000/api/token/", method:"POST", body: body, anonymous: true});
       return myJson;
@@ -139,7 +145,7 @@ export default new Vuex.Store({
       return {};
     },
     async me({ dispatch}) {
-      const myJson = await dispatch("fetchData", {url: "http://localhost:8000/api/me", method:"GET", body: null});            
+      const myJson = await dispatch("fetchData", {url: "http://localhost:8000/api/me", method:"GET", body: null});
       return myJson;
     },
   },

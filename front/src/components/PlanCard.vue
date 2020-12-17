@@ -1,5 +1,6 @@
 <template>
 <div
+  class="plancard"
   v-on:click='onClick'
   draggable
   @drop='onDrop($event, 1)'
@@ -34,8 +35,19 @@
         <div style="width: 20%; display: inline-block; text-align: right; position: relative; top: -0.2rem; left: -0.2rem"><b-img :src="gravatar('pablo.alba@kaleidos.net')" style="height:1.1rem;" rounded="circle"></b-img></div>
       </div>
 
+
     </b-card-text>
+
   </b-card>
+
+  <div class="card_buttons" style="position: absolute; top:0; right:0">
+    <b-link href="#" v-on:click="onDeletePlan">
+      <b-img src="/delete.png"></b-img>
+    </b-link>
+    <b-link href="#" v-on:click="onDuplicatePlan">
+      <b-img src="/duplicate.png"></b-img>
+    </b-link>
+  </div>
 </div>
 </template>
 
@@ -78,7 +90,32 @@
         },
         onClick(){
           this.$emit('edit_plan', JSON.stringify(this.plan));
-        }
+        },
+        onDeletePlan(evt){
+          evt.stopPropagation();
+          this.$bvModal.msgBoxConfirm("¿Seguro que quieres borrar el plan \""+this.plan.name+"\"?").then(value => {
+            if(value){
+              this.deletePlan();
+            }
+          });
+        },
+        async deletePlan(){
+          this.$store.commit("SET_SHOWSPINNER", true);
+          await this.$store.dispatch("deletePlan",this.plan.id);
+          await this.$store.dispatch("fetchTrip");
+          this.$store.commit("SET_SHOWSPINNER", false);
+        },
+        onDuplicatePlan(evt){
+          evt.stopPropagation();
+          this.$bvModal.msgBoxConfirm("¿Seguro que quieres duplicar el plan \""+this.plan.name+"\"?").then(value => {
+            if(value){
+              this.duplicatePlan();
+            }
+          });
+        },
+        async duplicatePlan(){
+          this.$emit('duplicate_plan', JSON.stringify(this.plan));
+        },
       }
     }
 </script>
@@ -131,4 +168,24 @@
 .drag-el {
   cursor: grab;
 }
+
+.plancard {
+  cursor: grab;
+  position: relative;
+}
+
+.plancard .card_buttons {
+  display: none;
+}
+
+.plancard:hover .card_buttons {
+  display: block;
+  cursor: pointer;
+}
+
+.plancard .card_buttons img{
+  width: 1.5rem;
+}
+
+
 </style>

@@ -24,8 +24,18 @@
 
         <b-container >
           <b-row style="height: 12rem">
-            <b-col cols="4" v-if="plan.id != null">
+            <b-col cols="4" v-if="plan.id != null" style="position:relative">
               <b-img :src="plan.url_picture" style="height: 11rem; width: 11rem"></b-img>
+              <div style="position:absolute; top:0.2rem; right: 2.2rem; cursor:pointer" v-on:click="$bvToast.show('img-toast')">
+                <b-img src="/edit.png"></b-img>
+              </div>
+              <b-toast id="img-toast" title="Cambiar imagen" static no-auto-hide style="width: 40rem; position: absolute; top:0; left:0">
+                <b-form-input
+                  id="input-address"
+                  v-model="plan.url_picture"
+                  placeholder="Copia la URL de la imagen aquí "/>
+              </b-toast>
+
             </b-col>
             <b-col>
 
@@ -186,7 +196,6 @@
     },
     methods: {
       searchPlaces: _.debounce(function(){
-        console.log("================>"+this.plan.name);
         fetch(`http://localhost:8000/api/trips/search?place=${this.plan.name}`, {
             headers: {
               'Authorization': 'JWT '+ this.$store.state.currentUser.token,
@@ -303,6 +312,12 @@
         }
 
         this.plan = plan;
+      },
+      async duplicatePlan(plan){
+        this.fillPlan(plan);
+        this.plan.id=null;
+        this.plan.name="Copia de "+this.plan.name;
+        await this.createOrUpdatePlan();
       }
     }
   }
