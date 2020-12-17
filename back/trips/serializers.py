@@ -6,7 +6,7 @@ from users.serializers import UserSerializer
 
 class PlanSerializer(serializers.ModelSerializer):
     created_by = UserSerializer(required=False)
-    distance_to_next = serializers.FloatField(required=False)
+    # distance_to_next = serializers.FloatField(required=False)
 
     class Meta:
         model = Plan

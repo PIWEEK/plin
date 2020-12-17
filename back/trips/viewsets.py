@@ -83,7 +83,8 @@ class PlanViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         instance = serializer.save(created_by=self.request.user)
 
-    def perform_update(self, serializer):
+    @action(detail=True, methods=['post'])
+    def move(self, request, trip_pk, pk=None):
         """
         1. Meter el plan en un día 'day_to'
             a. al comienzo o en medio de un día con planes 'before_plan'
@@ -95,12 +96,12 @@ class PlanViewSet(viewsets.ModelViewSet):
         2. Meter el plan en la wishlist ('day_to' = None)
            --> reasignar orden en los planes posteriores del día que se deja atrás
         """
+        moving_plan = Plan.objects.get(pk=pk)
+        if 'day_to' in request.data:
+            day = Day.objects.get(id=request.data['day_to'])
 
-        if 'day_to' in self.request.data:
-            day = Day.objects.get(id=self.request.data['day_to'])
-
-            if 'before_plan' in self.request.data:
-                before_plan_id = self.request.data['before_plan']
+            if 'before_plan' in request.data:
+                before_plan_id = request.data['before_plan']
 
                 before_plan = Plan.objects.get(id=before_plan_id)
                 order = before_plan.order
@@ -115,18 +116,23 @@ class PlanViewSet(viewsets.ModelViewSet):
                     order = after_plan.order + 1
                 else:
                     order = 1
+
         else:
             day, order = None, None
             plans_to_reorder = Plan.objects.filter(
-                day=serializer.instance.day,
-                order__gt=serializer.instance.order
+                day=moving_plan.day,
+                order__gt=moving_plan.order
             ).order_by('order')
             for i, plan in enumerate(plans_to_reorder):
                 plan.order = plan.order - 1
                 plan.save()
 
-        instance = serializer.save(day=day, order=order)
-        instance.save()
+        moving_plan.day = day
+        moving_plan.order = order
+        moving_plan.save()
+
+        serializer = PlanSerializer(moving_plan)
+        return Response(serializer.data)
 
 
 class DayViewSet(viewsets.ModelViewSet):
