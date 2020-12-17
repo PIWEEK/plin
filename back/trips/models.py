@@ -48,7 +48,7 @@ class Plan(models.Model):
     price_max = models.CharField(max_length=100, blank=True, null=True)
     opening_hours = models.CharField(max_length=500, blank=True, null=True)
     order = models.IntegerField(blank=True, null=True)
-    latlon = gis_models.PointField(blank=True, null=True)
+    latlon = gis_models.PointField(geography=True, blank=True, null=True)
     popular_times = models.URLField(blank=True, null=True)
     telephone = models.CharField(max_length=100, blank=True, null=True)
     trip = models.ForeignKey(Trip, related_name="plans", on_delete=models.CASCADE)
