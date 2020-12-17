@@ -40,6 +40,7 @@ class Plan(models.Model):
     address = models.CharField(max_length=100, blank=True, null=True)
     comments = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    created_by = models.ForeignKey(User, blank=True, null=True, on_delete=models.SET_NULL)
     day = models.ForeignKey(Day, related_name="plans", blank=True, null=True, on_delete=models.SET_NULL)
     duration = models.FloatField()
     google_id = models.CharField(max_length=100, blank=True, null=True)

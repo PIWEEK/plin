@@ -27,7 +27,7 @@ class PlanAdmin(gis_admin.OSMGeoAdmin):
         ('Main', {'fields': ('name', 'url_picture')}),
         ('Location', {'fields': ('latlon', 'address')}),
         ('Dates', {'fields': ('day', 'duration', 'opening_hours', 'popular_times')}),
-        ('Other', {'fields': ('trip', 'order')}),
+        ('Other', {'fields': ('trip', 'order', 'created_by')}),
     )
     list_display = ['name', 'day', 'order']
     save_on_top = True

@@ -80,6 +80,9 @@ class PlanViewSet(viewsets.ModelViewSet):
     serializer_class = PlanSerializer
     queryset = Plan.objects.all()
 
+    def perform_create(self, serializer):
+        instance = serializer.save(created_by=self.request.user)
+
     def perform_update(self, serializer):
         day = None
         if 'day_to' in self.request.data:
