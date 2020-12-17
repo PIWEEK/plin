@@ -64,7 +64,7 @@ class Plan(models.Model):
     url_picture = models.URLField(blank=True, null=True)
 
     class Meta:
-        ordering = ['order', 'created_at', ]
+        ordering = ['day', 'order', 'created_at', ]
 
     def __str__(self):
         return self.name

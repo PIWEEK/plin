@@ -84,31 +84,49 @@ class PlanViewSet(viewsets.ModelViewSet):
         instance = serializer.save(created_by=self.request.user)
 
     def perform_update(self, serializer):
-        day = None
+        """
+        1. Meter el plan en un día 'day_to'
+            a. al comienzo o en medio de un día con planes 'before_plan'
+                --> asignar día, asignar orden, reasignar orden en los planes posteriores
+            b. al final de un día con planes
+                --> buscar el orden máximo del día y ponerle el orden_max + 1
+               o en un día sin planes
+                --> poner ordern = 1
+        2. Meter el plan en la wishlist ('day_to' = None)
+           --> reasignar orden en los planes posteriores del día que se deja atrás
+        """
+
         if 'day_to' in self.request.data:
             day = Day.objects.get(id=self.request.data['day_to'])
 
-        if 'before_plan' in self.request.data:
-            before_plan_id = self.request.data['before_plan']
+            if 'before_plan' in self.request.data:
+                before_plan_id = self.request.data['before_plan']
 
-            before_plan = Plan.objects.get(id=before_plan_id)
-            before_plan_order = before_plan.order
-            plans_to_reorder = Plan.objects.filter(day=day, order__gte=before_plan_order).order_by('order')
+                before_plan = Plan.objects.get(id=before_plan_id)
+                order = before_plan.order
 
+                plans_to_reorder = Plan.objects.filter(day=day, order__gte=order).order_by('order')
+                for i, plan in enumerate(plans_to_reorder):
+                    plan.order = order + i + 1
+                    plan.save()
+            else:
+                after_plan = Plan.objects.filter(day=day).order_by('-order').first()
+                if after_plan:
+                    order = after_plan.order + 1
+                else:
+                    order = 1
+        else:
+            day, order = None, None
+            plans_to_reorder = Plan.objects.filter(
+                day=serializer.instance.day,
+                order__gt=serializer.instance.order
+            ).order_by('order')
             for i, plan in enumerate(plans_to_reorder):
-                plan.order = before_plan_order + i + 1
+                plan.order = plan.order - 1
                 plan.save()
 
-            instance = serializer.save(day=day)
-            instance.order = before_plan_order
-            instance.save()
-        else:
-            after_plan = Plan.objects.filter(day=day).order_by('-order').first()
-            order = -1
-            if after_plan != None:
-                order = after_plan.order + 1
-            instance = serializer.save(day=day, order=order)
-            instance.save()
+        instance = serializer.save(day=day, order=order)
+        instance.save()
 
 
 class DayViewSet(viewsets.ModelViewSet):
