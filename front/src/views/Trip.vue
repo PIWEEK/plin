@@ -1,6 +1,10 @@
 <template>
   <b-container>
-    <div class="d-flex align-items-center header" :style="headerImg">
+    <div class="d-flex align-items-center header position-relative" :style="headerImg" @mouseover="hoverImage = true" @mouseleave="hoverImage = false" >
+      <div v-if="hoverImage" class="position-absolute"  style="top: 10px; right: 10px">
+        <b-icon-gear class="icon-update-url-picture" variant="dark" @click="$bvModal.show('modal-update-url-picture')"/>
+      </div>
+
       <b-container>
         <div class="w-100">
           <h1
@@ -34,6 +38,23 @@
       <week></week>
       </b-col>
     </b-row>
+
+    <b-modal id="modal-update-url-picture" centered  size="lg" scrollable title="Cambiar imagen" hide-footer>
+      <b-form>
+        <b-form-group
+          id="input-group-url-picture"
+          label="Url de la imagen"
+          label-for="input-url-picture"
+        >
+          <b-form-input
+            id="input-url-picture"
+            v-model="editUrlPicture"
+            placeholder="Copia la URL de la imagen aquí"/>
+        </b-form-group>
+        <b-button variant="primary" block @click="updateUrlPicture()">Aceptar</b-button>
+      </b-form>
+    </b-modal>
+
   </b-container>
 </template>
 
@@ -53,7 +74,9 @@ export default {
   },
   data() {
     return {
-      editTitle: this.$store.state.currentTrip.title
+      editTitle: this.$store.state.currentTrip.title,
+      editUrlPicture: this.$store.state.currentTrip.url_picture,
+      hoverImage: false
     };
   },
   methods: {
@@ -61,9 +84,15 @@ export default {
       var src = evt.target.innerText
       this.editTitle = src
     },
-    endTitleEdit(){
+    endTitleEdit() {
       this.$el.querySelector('.editTitle').blur()
       this.$store.dispatch("updateTrip", {tripId: this.$store.state.currentTrip.id, data: { title: this.editTitle }});
+    },
+    updateUrlPicture() {
+      this.$store.commit("SET_SHOWSPINNER", true);
+      this.$store.dispatch("updateTrip", {tripId: this.$store.state.currentTrip.id, data: { url_picture: this.editUrlPicture }});
+      this.$bvModal.hide('modal-update-url-picture');
+      this.$store.commit("SET_SHOWSPINNER", false);
     },
     async deleteTrip() {
       this.$store.commit("SET_SHOWSPINNER", true);
@@ -98,6 +127,10 @@ export default {
   background-position: center; /* Center the image */
   background-repeat: no-repeat; /* Do not repeat the image */
   background-size: cover; /* Resize the background image to cover the entire container */
+}
+
+.icon-update-url-picture{
+  cursor: pointer;
 }
 
 </style>
