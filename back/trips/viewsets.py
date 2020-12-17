@@ -71,7 +71,7 @@ class TripViewSet(viewsets.ModelViewSet):
     @action(detail=True, methods=['post'])
     def reset(self, request, pk=None):
         trip = Trip.objects.get(pk=pk)
-        plans = trip.plans.all().update(day=None)
+        plans = trip.plans.all().update(day=None, order=None)
         return Response('all plans reset')
 
 
