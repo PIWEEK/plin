@@ -165,7 +165,7 @@
         <b-button size="sm" @click="createOrUpdatePlan()">
           Guardar cambios
         </b-button>
-    </template>
+      </template>
 
 
 

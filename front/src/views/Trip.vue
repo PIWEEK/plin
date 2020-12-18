@@ -32,7 +32,7 @@
         </b-col>
         <b-col style="text-align: center">
             <b-icon-plus-circle variant="dark" style="width: 1.5rem; height: 1.5rem; margin-right: 1rem" v-b-tooltip.hover title="Añadir un día"/>
-            <b-icon-calendar-3 variant="dark" style="width: 1.5rem; height: 1.5rem; margin-right: 1rem" v-b-tooltip.hover title="Editar fechas y número de días"/>
+            <b-icon-calendar-3 @click="openEditTrip"  variant="dark" style="width: 1.5rem; height: 1.5rem; margin-right: 1rem; cursor:pointer" v-b-tooltip.hover title="Editar fechas y número de días"/>
             <b-icon-house-door variant="dark" style="width: 1.5rem; height: 1.5rem;" v-b-tooltip.hover title="Añadir o editar alojamientos"/>
         </b-col>
         <b-col style="text-align: right">
@@ -85,6 +85,11 @@
       </b-form>
     </b-modal>
 
+
+
+    <dates />
+
+
   </b-container>
 </template>
 
@@ -92,6 +97,7 @@
 import WishList from '@/components/WishList.vue'
 import Week from '@/components/Week.vue'
 import Plan from '@/components/Plan.vue';
+import Dates from '@/components/Dates.vue';
 
 export default {
   name: "Trip",
@@ -99,6 +105,7 @@ export default {
     this.getRecords();
   },
   components: {
+    'dates': Dates,
     'wishlist': WishList,
     'week': Week,
     'plan': Plan
@@ -186,6 +193,9 @@ export default {
       var md5 = require('md5');
       const hash = md5(email)
       return "http://www.gravatar.com/avatar/"+hash;
+    },
+    openEditTrip(){
+      this.$bvModal.show('modal-dates');
     }
   },
   computed: {
