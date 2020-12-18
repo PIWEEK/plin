@@ -67,10 +67,10 @@
       </b-container>
     </b-container>
 
-    <h1 v-if="$store.state.trips.length > 0" style="margin-top: 5rem">Próximos Viajes</h1>
-    <trips v-if="$store.state.trips.length > 0"/>
-    <h1 v-if="$store.state.trips.length > 0" style="margin-top: 5rem">Viajes pasados</h1>
-    <trips v-if="$store.state.trips.length > 0" />
+    <h1 style="margin-top: 5rem">Próximos Viajes</h1>
+    <trips />
+    <h1 style="margin-top: 5rem">Viajes pasados</h1>
+    <trips />
   </b-container>
 </template>
 
@@ -108,10 +108,10 @@ export default {
     }
   },
   async mounted() {
-    if (this.$store.state.currentUser.token === undefined){
+    if (! this.$store.state.currentUser.token){
       this.$router.push("/");
-    } else if (this.$store.state.currentUser.name === undefined){
-      this.getUserInfo();
+    } else if (! this.$store.state.currentUser.id){
+      await this.getUserInfo();
     }
   },
   methods: {

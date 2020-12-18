@@ -204,7 +204,7 @@
         if (token === undefined){
           this.showError = true;
         } else {
-          this.$store.commit('SET_CURRENTUSER', {username: this.form.username, email: this.form.username, token: token});          
+          this.$store.commit('SET_CURRENTUSER', {username: this.form.username, email: this.form.username, token: token});
           this.$router.push("/home");
         }
       },

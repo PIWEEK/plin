@@ -12,6 +12,9 @@
         :key="trip.id"
       ></trip-card>
     </b-row>
+    <div v-if="getTrips.length == 0" style="margin-top:2rem">
+      <h4>Todavía no tienes ningún viaje :(</h4>
+    </div>
   </b-container>
 </template>
 

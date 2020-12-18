@@ -37,7 +37,7 @@
         </b-col>
         <b-col style="text-align: right">
           <b-img :src="gravatar(member.email)" style="height:2rem;margin-right:1rem" rounded="circle" v-for="member in this.$store.state.currentTrip.members" :key="member.id"></b-img>
-          <b-button variant="outline-primary">Añadir acompañante</b-button>
+          <b-button variant="outline-primary" @click="openAddMember">Añadir acompañante</b-button>
         </b-col>
       </b-row>
 
@@ -68,6 +68,23 @@
       </b-form>
     </b-modal>
 
+    <b-modal id="modal-add-member" centered  size="lg" scrollable title="Añadir acompañante" hide-footer>
+      <b-form @submit="addMember">
+        <b-form-group
+          id="input-group-url-picture"
+          label="Añade el email de tu acompañante"
+          label-for="input-member-email"
+        >
+          <b-form-input
+            type="email"
+            id="input-member-email"
+            v-model="memberEmail"
+            placeholder="El acompañante debe estar registrado en Plín"/>
+        </b-form-group>
+        <b-button type="submit" variant="primary" block>Aceptar</b-button>
+      </b-form>
+    </b-modal>
+
   </b-container>
 </template>
 
@@ -90,7 +107,8 @@ export default {
     return {
       editTitle: this.$store.state.currentTrip.title,
       editUrlPicture: this.$store.state.currentTrip.url_picture,
-      hoverImage: false
+      hoverImage: false,
+      memberEmail: '',
     };
   },
   methods: {
@@ -107,6 +125,26 @@ export default {
       this.$store.dispatch("updateTrip", {tripId: this.$store.state.currentTrip.id, data: { url_picture: this.editUrlPicture }});
       this.$bvModal.hide('modal-update-url-picture');
       this.$store.commit("SET_SHOWSPINNER", false);
+    },
+    openAddMember(){
+      this.memberEmail = '';
+      this.$bvModal.show('modal-add-member')
+    },
+    async addMember(event) {
+      event.preventDefault();
+      this.$store.commit("SET_SHOWSPINNER", true);
+      const response = await this.$store.dispatch("addMember", {tripId: this.$store.state.currentTrip.id, data: { email: this.memberEmail }});
+      this.$bvModal.hide('modal-add-member');
+
+      if ("user not found" == response){
+        this.$store.commit("SET_SHOWSPINNER", false);
+        this.$bvModal.msgBoxOk("No se ha podido añadir al acompañante. ¿Seguro que está registrado en Plín?", {okVariant: "danger"})
+      } else {
+        await this.$store.dispatch("fetchTrip");
+        this.$store.commit("SET_SHOWSPINNER", false);
+      }
+
+      return false;
     },
     async deleteTrip() {
       this.$store.commit("SET_SHOWSPINNER", true);
