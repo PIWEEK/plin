@@ -195,6 +195,7 @@ export default {
       await this.$store.dispatch("createTrip", trip);
       await this.$store.dispatch("fetchTripsList");
       this.$store.commit("SET_SHOWSPINNER", false);
+      this.$router.push("/trip");
     },
     async getUserInfo() {
       const userInfo = await this.$store.dispatch("me", JSON.stringify(this.form));

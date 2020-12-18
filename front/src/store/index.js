@@ -95,10 +95,12 @@ export default new Vuex.Store({
         await dispatch("fetchData", {url: url, method:"POST", body: JSON.stringify(planData)});
       }
     },
-    async createTrip({ dispatch, state }, newTrip) {
+    async createTrip({ dispatch, commit, state }, newTrip) {
       if (!state.fakeData) {
         const url = "http://localhost:8000/api/trips/";
-        await dispatch("fetchData", {url: url, method:"POST", body: JSON.stringify(newTrip)});
+        const res = await dispatch("fetchData", {url: url, method:"POST", body: JSON.stringify(newTrip)});
+        console.log("RES", res)
+        commit("SET_CURRENTTRIP", res);
       }
     },
     async updateTrip({ dispatch, commit, state }, { tripId, data }) {
