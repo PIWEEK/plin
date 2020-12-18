@@ -81,56 +81,59 @@ class PlanViewSet(viewsets.ModelViewSet):
     queryset = Plan.objects.all()
 
     def perform_create(self, serializer):
-        instance = serializer.save(created_by=self.request.user)
+        order = Plan.objects.all().order_by('-order').first().order + 1
+        instance = serializer.save(created_by=self.request.user, order=order, day=None)
 
     @action(detail=True, methods=['post'])
     def move(self, request, trip_pk, pk=None):
-        """
-        1. Meter el plan en un día 'day_to'
-            a. al comienzo o en medio de un día con planes 'before_plan'
-                --> asignar día, asignar orden, reasignar orden en los planes posteriores
-            b. al final de un día con planes
-                --> buscar el orden máximo del día y ponerle el orden_max + 1
-               o en un día sin planes
-                --> poner ordern = 1
-        2. Meter el plan en la wishlist ('day_to' = None)
-           --> reasignar orden en los planes posteriores del día que se deja atrás
-        """
+        # Get the orig and dest data
         moving_plan = Plan.objects.get(pk=pk)
-        if 'day_to' in request.data:
-            day = Day.objects.get(id=request.data['day_to'])
+        orig_order = moving_plan.order
+        orig_day = moving_plan.day # None|Wishlist or day
+        dest_day = None # None|Wishlisht
+        if 'day_to' in request.data: # or day
+            dest_day = Day.objects.get(id=request.data['day_to'])
 
-            if 'before_plan' in request.data:
-                before_plan_id = request.data['before_plan']
+        # conseguir el orden destino en un día con planes
+        if 'before_plan' in request.data:
+            before_plan_id = request.data['before_plan']
 
-                before_plan = Plan.objects.get(id=before_plan_id)
+            # reordenar día destino posterior a la card que vamos a colocar
+            before_plan = Plan.objects.get(id=before_plan_id)
+            if before_plan.order:
                 order = before_plan.order
-
-                plans_to_reorder = Plan.objects.filter(day=day, order__gte=order).order_by('order')
-                for i, plan in enumerate(plans_to_reorder):
-                    plan.order = order + i + 1
-                    plan.save()
             else:
-                after_plan = Plan.objects.filter(day=day).order_by('-order').first()
-                if after_plan:
-                    order = after_plan.order + 1
-                else:
-                    order = 1
+                order = 1
 
+            if dest_day:
+                plans_to_reorder = Plan.objects.filter(day=dest_day, order__gte=order).order_by('order')
+            else:
+                plans_to_reorder = Plan.objects.filter(day__isnull=True, order__gte=order).order_by('order')
+            for i, plan in enumerate(plans_to_reorder):
+                plan.order = order + i + 1
+                plan.save()
+
+        # conseguir el orden destino en un día sin planes o al final
         else:
-            day, order = None, None
-            if moving_plan.day is not None:
-                plans_to_reorder = Plan.objects.filter(
-                    day=moving_plan.day,
-                    order__gt=moving_plan.order
-                ).order_by('order')
-                for i, plan in enumerate(plans_to_reorder):
-                    plan.order = plan.order - 1
-                    plan.save()
+            after_plan = Plan.objects.filter(day=dest_day).order_by('-order').first()
+            if after_plan and after_plan.order:
+                order = after_plan.order + 1
+            else:
+                order = 1
 
-        moving_plan.day = day
+        # guardamos el plan nuevo
+        moving_plan.day = dest_day
         moving_plan.order = order
         moving_plan.save()
+
+        # reordenamos días en la columna origen
+        if orig_day:
+            plans_to_reorder = Plan.objects.filter(day=orig_day, order__gt=orig_order,).order_by('order')
+        else:
+            plans_to_reorder = Plan.objects.filter(day__isnull=True, order__gt=orig_order,).order_by('order')
+        for i, plan in enumerate(plans_to_reorder):
+            plan.order = plan.order - 1
+            plan.save()
 
         serializer = PlanSerializer(moving_plan)
         return Response(serializer.data)
