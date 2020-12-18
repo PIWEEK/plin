@@ -81,7 +81,10 @@ class PlanViewSet(viewsets.ModelViewSet):
     queryset = Plan.objects.all()
 
     def perform_create(self, serializer):
-        order = Plan.objects.all().order_by('-order').first().order + 1
+        if Plan.objects.count() == 0:
+            order = 0
+        else:
+            order = Plan.objects.all().order_by('-order').first().order + 1
         instance = serializer.save(created_by=self.request.user, order=order, day=None)
 
     @action(detail=True, methods=['post'])
