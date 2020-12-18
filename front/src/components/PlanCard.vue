@@ -11,7 +11,7 @@
   <div v-if="isDraggingOnMe" style="height: 4rem; border: 1px dashed black; pointer-events: none;">
   </div>
   <b-card
-    :img-src="plan.url_picture ? plan.url_picture : '/logo.png'"
+    :img-src="plan.url_picture"
     img-alt="Plan picture"
     img-left
     class="w-100 drag-el"
@@ -19,7 +19,7 @@
     style="height: 4rem; margin-top:0.2rem; pointer-events: none;"
     >
     <b-card-text>
-      <div>
+      <div class="name">
         {{ plan.name }}
       </div>
       <div>
@@ -30,7 +30,7 @@
         </div>
         <div v-else style="color: white">.</div>
       </div>
-      <div style="width: 100%">
+      <div style="width: 100%; padding-right: 2px;">
         <div style="width: 80%; display: inline-block">🕑 {{ plan.duration }}h</div>
         <div style="width: 20%; display: inline-block; text-align: right; position: relative; top: -0.2rem; left: -0.2rem"><b-img :src="gravatar(plan.created_by.email)" style="height:1.1rem;" rounded="circle"></b-img></div>
       </div>
@@ -40,8 +40,8 @@
 
   </b-card>
 
-  <div class="card_buttons" style="position: absolute; top:0; right:0">
-    <b-link href="#" v-on:click="onDeletePlan">
+  <div class="card_buttons" style="position: absolute; top: 4px; right:4px">
+    <b-link href="#" v-on:click="onDeletePlan" style="padding-right: 4px">
       <b-img src="/delete.png"></b-img>
     </b-link>
     <b-link href="#" v-on:click="onDuplicatePlan">
@@ -163,8 +163,6 @@
   width: 4rem;
 }
 
-
-
 .drag-el {
   cursor: grab;
 }
@@ -187,5 +185,11 @@
   width: 1.5rem;
 }
 
+.name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: bold;
+}
 
 </style>

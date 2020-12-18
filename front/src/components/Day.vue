@@ -1,11 +1,13 @@
 <template>
 <b-col style="padding: 0 0.3rem 0 0">
-  <b-button style="width: 12rem">Día {{ dayNumber + 1 }}</b-button>
+  <div class="day-header text-secondary" variant="white" style="width: 12rem">
+    Día {{ dayNumber + 1 }}
+  </div>
   <div 
-  class="day drop-zone"
-  @drop='onDrop($event, 1)' 
-  @dragover.prevent
-  @dragenter.prevent
+    class="day drop-zone"
+    @drop='onDrop($event, 1)' 
+    @dragover.prevent
+    @dragenter.prevent
   >
    <plan-card
           :plan="plan"
@@ -39,17 +41,24 @@
         },
         planDropOnChild (planId, beforePlan) {    
           this.movePlan(planId, beforePlan);
-        }      
+        }
       }
     }
 </script>
 
 <style lang="scss" scoped>
+.day-header {
+  font-weight: bold;
+  padding: 0.375rem 0.75rem;
+  text-align: center;
+}
 .day {
   width: 12rem;
-  background-color: lightgray;
+  background-color: #E4F5FA;
+  border-radius: 4px;
   height: 40rem;
   margin-top: 0.5rem;
+  padding: 10px 2px;
 }
 
 </style>

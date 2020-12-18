@@ -228,16 +228,19 @@
 </script>
 
 
-<style lang="scss">
-.btn-primary {
-	color: #fff;
-	background-color: #97d6e0;
-	border-color: #97d6e0;
-}
+<style lang="scss" scoped>
 
-.btn-primary:hover {
-	color: #fff;
-	background-color: #53cde0;
-	border-color: #53cde0;
-}
+  /*
+  .btn-primary {
+    color: #fff;
+    background-color: #97d6e0;
+    border-color: #97d6e0;
+  }
+
+  .btn-primary:hover {
+    color: #fff;
+    background-color: #53cde0;
+    border-color: #53cde0;
+  }
+  */
 </style>

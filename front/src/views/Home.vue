@@ -207,9 +207,9 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .title {
-    color: #150101;
+    color: #FAFAFA;
     font-size: 86px;
     font-weight: bold;
   }

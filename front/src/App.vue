@@ -23,7 +23,7 @@
               <b-nav-item-dropdown right no-caret>
                 <!-- Using 'button-content' slot -->
                 <template #button-content>
-                  <span class="text-info name">{{ $store.state.currentUser.name }}</span>
+                  <span class="text-secondary name">{{ $store.state.currentUser.name }}</span>
                   <b-img  rounded="circle" :src="gravatarUrl"/>
                 </template>
                 <!--<b-dropdown-item href="#">Profile</b-dropdown-item>-->
@@ -68,33 +68,34 @@
 </script>
 
 <style lang="scss">
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap');
+  @import 'scss/custom.scss';
+  @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap');
 
-#app {
-  font-family: 'Nunito', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
-}
+  #app {
+    font-family: 'Nunito', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: #475266;
+  }
 
-#nav {
-  padding: 30px;
+  #nav {
+    padding: 30px;
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
+    a {
+      font-weight: bold;
+      color: #2c3e50;
 
-    &.router-link-exact-active {
-      color: #42b983;
+      &.router-link-exact-active {
+        color: #42b983;
+      }
     }
   }
-}
 
-.empty {
-  padding-top: 40px;
-}
+  .empty {
+    padding-top: 40px;
+  }
 
-.name {
-  padding-right: 14px;
-}
+  .name {
+    padding-right: 14px;
+  }
 </style>

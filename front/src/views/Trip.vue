@@ -2,10 +2,10 @@
   <b-container>
     <div class="d-flex align-items-center header position-relative" :style="headerImg" @mouseover="hoverImage = true" @mouseleave="hoverImage = false" >
       <div v-if="hoverImage" class="position-absolute"  style="top: 10px; right: 10px">
-        <b-icon-gear class="icon-update-url-picture" variant="dark" @click="$bvModal.show('modal-update-url-picture')"/>
+        <b-img class="icon-update-url-picture" width="44px" style="padding: 8px" src="/edit.png" @click="$bvModal.show('modal-update-url-picture')"></b-img>
       </div>
 
-      <b-container>
+      <b-container fluid>
         <div class="w-100">
           <h1
             class="editTitle"
@@ -18,9 +18,9 @@
         </div>
       </b-container>
     </div>
-    <b-container style="box-shadow: 1px 2px lightgray; margin-bottom:0.3rem">
+    <b-container fluid style="box-shadow: 0px 2px 2px lightgray; margin-bottom:0.3rem">
       <b-row align-v="center">
-        <b-col>
+        <b-col style="padding: 0">
           <b-dropdown size="lg"  variant="link" toggle-class="text-decoration-none" no-caret>
             <template #button-content>
               <b-icon-gear variant="dark"/>
@@ -30,7 +30,7 @@
             <b-dropdown-item-button @click="resetTrip()">Mover todos los planes al listado</b-dropdown-item-button>
           </b-dropdown>
         </b-col>
-        <b-col>
+        <b-col style="text-align: center">
             <b-icon-plus-circle variant="dark" style="width: 1.5rem; height: 1.5rem; margin-right: 1rem" v-b-tooltip.hover title="Añadir un día"/>
             <b-icon-calendar-3 variant="dark" style="width: 1.5rem; height: 1.5rem; margin-right: 1rem" v-b-tooltip.hover title="Editar fechas y número de días"/>
             <b-icon-house-door variant="dark" style="width: 1.5rem; height: 1.5rem;" v-b-tooltip.hover title="Añadir o editar alojamientos"/>
@@ -152,25 +152,28 @@ export default {
   },
   computed: {
       headerImg () {
-        return "background-image: url('" + this.$store.state.currentTrip.url_picture + "')";
+        return `background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 100%), url('${this.$store.state.currentTrip.url_picture}');`;
       }
     },
 };
 </script>
 
 <style lang="scss" scoped>
+  .header {
+    color: white;
+    background-color: #cccccc; /* Used if the image is unavailable */
+    height: 10rem; /* You must set a specified height */
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-size: cover; /* Resize the background image to cover the entire container */
+  }
 
-.header {
-  color: white;
-  background-color: #cccccc; /* Used if the image is unavailable */
-  height: 8rem; /* You must set a specified height */
-  background-position: center; /* Center the image */
-  background-repeat: no-repeat; /* Do not repeat the image */
-  background-size: cover; /* Resize the background image to cover the entire container */
-}
+  .icon-update-url-picture{
+    cursor: pointer;
+  }
 
-.icon-update-url-picture{
-  cursor: pointer;
-}
-
+  h1 {
+    font-weight: bolder;
+    text-align: center;
+  }
 </style>

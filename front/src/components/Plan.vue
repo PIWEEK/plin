@@ -27,7 +27,7 @@
             <b-col cols="4" v-if="plan.id != null" style="position:relative">
               <b-img :src="plan.url_picture" style="height: 11rem; width: 11rem"></b-img>
               <div style="position:absolute; top:0.2rem; right: 2.2rem; cursor:pointer" v-on:click="$bvToast.show('img-toast')">
-                <b-img src="/edit.png"></b-img>
+                <b-img width="44px" style="padding: 8px" src="/edit.png"></b-img>
               </div>
               <b-toast id="img-toast" title="Cambiar imagen" static no-auto-hide style="width: 40rem; position: absolute; top:0; left:0">
                 <b-form-input
@@ -37,9 +37,7 @@
               </b-toast>
 
             </b-col>
-            <b-col>
-
-
+            <b-col :style="plan.id  ? 'padding-left: 15px' : 'padding-left: 0'">
               <b-form-group
                 id="input-group-address"
                 label="Dirección"
@@ -161,10 +159,10 @@
 
       <template #modal-footer="{ cancel}">
         <!-- Emulate built in modal footer ok and cancel button actions -->
-        <b-button size="sm" @click="cancel()">
+        <b-button size="sm" variant="outline-secondary" @click="cancel()">
           Cerrar
         </b-button>
-        <b-button size="sm" variant="primary" @click="createOrUpdatePlan()">
+        <b-button size="sm" @click="createOrUpdatePlan()">
           Guardar cambios
         </b-button>
     </template>
@@ -184,7 +182,9 @@
     },
     data() {
       return {
-        plan: {},
+        plan: {
+          url_picture: `${window.location.origin}/images/default-plan-${1 + Math.floor(Math.random() * Math.floor(6))}.png`
+        },
         title: '',
         places: []
       }
@@ -232,7 +232,6 @@
             if (data.result.photos) {
               data.result.photos.forEach(photo => {
                 const ratio = (photo.width / photo.height) - 1;
-                console.log(photo, ratio);
                 if (!bestRatio || (ratio > 0 && ratio < bestRatio)) {
                   bestRatio = ratio,
                   bestPhoto = photo;
@@ -253,7 +252,9 @@
                   this.plan.url_picture = photoData.url;
                 });
             }
-
+            else {
+              this.plan.url_picture = `${window.location.origin}/images/default-plan-${1 + Math.floor(Math.random() * Math.floor(6))}.png`;
+            }
             this.plan.address = data.result.formatted_address;
             this.plan.telephone = data.result.international_phone_number;
             if (data.result.opening_hours) {
@@ -300,7 +301,7 @@
             "price_max": null,
             "price_min": null,
             "telephone": null,
-            "url_picture": null,
+            "url_picture": `${window.location.origin}/images/default-plan-${1 + Math.floor(Math.random() * Math.floor(6))}.png`,
             "day": null,
             "trip": this.$store.state.currentTrip.id
           }
@@ -323,17 +324,17 @@
   }
 </script>
 
-<style lang="scss">
-.btn-primary {
-	color: #fff;
-	background-color: #97d6e0;
-	border-color: #97d6e0;
-}
+<style lang="scss" scoped>
+  .btn-primary {
+    color: #fff;
+    background-color: #97d6e0;
+    border-color: #97d6e0;
+  }
 
-.btn-primary:hover {
-	color: #fff;
-	background-color: #53cde0;
-	border-color: #53cde0;
-}
+  .btn-primary:hover {
+    color: #fff;
+    background-color: #53cde0;
+    border-color: #53cde0;
+  }
 </style>
 

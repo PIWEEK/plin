@@ -1,16 +1,17 @@
 <template>
-  <div class="wishlist">
+  <div>
     <b-button block variant="primary" @click="showModal()">
       + Nuevo plan
     </b-button>
-    <div 
+    <div
       style="width: 100%; height: 40rem"
-      class="drop-zone"
+      class="wishlist radius-lg drop-zone"
       @drop='onDrop($event, 1)' 
       @dragover.prevent
       @dragenter.prevent
       >
         <plan-card
+          class="shadow-sm"
           :plan="plan"
           v-for="plan in $store.state.currentTrip.wishlist"
           v-on:plan_drop_on_child="planDropOnChild"
@@ -57,7 +58,10 @@
 
 <style lang="scss" scoped>
   .wishlist {
-    background-color: lightblue;
+    border-radius: 5px;
+    background-color: #EDEEFF;
+    margin-top: 0.5rem;
+    padding: 10px 1px;
     width: 100%;
   }
 </style>
