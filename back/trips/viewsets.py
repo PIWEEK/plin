@@ -82,7 +82,7 @@ class PlanViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         if Plan.objects.count() == 0:
-            order = 0
+            order = 1
         else:
             order = Plan.objects.all().order_by('-order').first().order + 1
         instance = serializer.save(created_by=self.request.user, order=order, day=None)
