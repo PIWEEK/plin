@@ -75,7 +75,7 @@ class TripViewSet(viewsets.ModelViewSet):
         return Response('all plans reset')
 
     @action(detail=True, methods=['post'])
-    def planit(self, request, pk=None):
+    def plinit(self, request, pk=None):
         trip = Trip.objects.get(pk=pk)
         plans = trip.plans.order_by('?').all()
         duration = trip.duration
@@ -87,6 +87,13 @@ class TripViewSet(viewsets.ModelViewSet):
                 plan.day = day
                 plan.order = j + 1
                 plan.save()
+
+        first_day = trip.days.first()
+        max_order = first_day.plans.order_by('order').first().order
+        for i, plan in enumerate(trip.plans.filter(day__isnull=True)):
+            plan.day = first_day
+            plan.order = max_order + i + 1
+            plan.save()
 
         serializer = TripSerializer(trip)
         return Response(serializer.data)
