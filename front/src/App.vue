@@ -2,9 +2,9 @@
   <div id="app">
     <b-container :class="!hasUser || $route.meta.hideNavigationBar ? 'empty' : ''">
       <b-container v-if="hasUser && !$route.meta.hideNavigationBar">
-        <b-navbar toggleable="lg" type="dark" variant="info">
+        <b-navbar toggleable="lg" type="dark" variant="white">
           <b-navbar-brand href="/home">
-            <b-img src="/logo.png" alt="Plin" style="width: 2rem; margin-right: 1rem"></b-img>
+            <b-img src="/logo.png" alt="Plin" style="height: 30px; margin-right: 1rem"></b-img>
             Plin
           </b-navbar-brand>
 
@@ -23,7 +23,7 @@
               <b-nav-item-dropdown right no-caret>
                 <!-- Using 'button-content' slot -->
                 <template #button-content>
-                  <span class="name">{{ $store.state.currentUser.name }}</span>
+                  <span class="text-info name">{{ $store.state.currentUser.name }}</span>
                   <b-img  rounded="circle" :src="gravatarUrl"/>
                 </template>
                 <!--<b-dropdown-item href="#">Profile</b-dropdown-item>-->
