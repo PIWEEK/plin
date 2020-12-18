@@ -3,7 +3,7 @@
   <b-container v-if="isLogin">
     <b-row>
       <b-col cols="8">
-        <div style="width: 100%; height: 60rem; background: url(/petra.png); font-size:5rem; color: white; display: table;">
+        <div :style="`width: 100%; height: 60rem; background: url(${selectedImageLogin}); font-size:5rem; color: white; display: table;`">
         <div style="display: table-cell; vertical-align: middle; padding: 2rem; font-weight: bold">
           <div v-html="selectedPhraseLogin"/>
         </div>
@@ -74,8 +74,8 @@
   <b-container v-else>
     <b-row>
       <b-col cols="8">
-        <div style="width: 100%; height: 60rem; background: url(/turista.png); font-size:5rem; color: white; display: table;">
-        <div style="display: table-cell; vertical-align: bottom; padding: 2rem; font-weight: bold">
+        <div :style="`width: 100%; height: 60rem; background: url(${selectedImageRegister}); font-size:5rem; color: white; display: table;`">
+        <div style="display: table-cell; vertical-align: middle; padding: 2rem; font-weight: bold">
           <div v-html="selectedPhraseRegister"/>
         </div>
         </div>
@@ -177,21 +177,24 @@
         showError: false,
         isLogin: true,
         phrases: [
-          "y te montas tu viaje...<br/>En un PLÍN",
-          "¿Planificar un viaje entre 8?...<br/>A mí, PLÍN",
-          "Y en un PLÍN, ya tenemos el viaje",
-          "¿5 ciudades en tres días?...<br/>A mí, PLÍN",
-          "¿Gastroturismo o viaje con niños?...<br/>A mí, PLÍN"
+          "¿organizar un viaje entre 12?...<br/><br/>a mí, PLÍN",
+          "y te organizas así...<br/><br/>en un PLÍN",
+          "¿Gastroturismo o viaje con niños?...<br/><br/>a mí, PLÍN",
+          "¿5 ciudades en tres días?...<br/><br/>a mí, PLÍN"
         ],
         selectedPhraseLogin: '',
+        selectedImageLogin: '',
         selectedPhraseRegister: '',
+        selectedImageRegister: ''
       }
     },
     created() {
       var idx = Math.floor(Math.random() * this.phrases.length);
       this.selectedPhraseLogin = this.phrases[idx];
+      this.selectedImageLogin = `/images/login-${idx + 1}.png`;
       idx = Math.floor(Math.random() * this.phrases.length);
       this.selectedPhraseRegister = this.phrases[idx];
+      this.selectedImageRegister = `/images/login-${idx + 1}.png`;
     },
     methods: {
       async onSubmit(event) {

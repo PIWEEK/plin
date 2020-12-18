@@ -5,7 +5,7 @@
         <b-navbar toggleable="lg" type="dark" variant="white">
           <b-navbar-brand href="/home">
             <b-img src="/logo.png" alt="Plin" style="height: 30px; margin-right: 1rem"></b-img>
-            Plin
+            Pl!n
           </b-navbar-brand>
 
           <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
