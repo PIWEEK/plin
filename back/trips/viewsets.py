@@ -74,6 +74,22 @@ class TripViewSet(viewsets.ModelViewSet):
         plans = trip.plans.all().update(day=None, order=None)
         return Response('all plans reset')
 
+    @action(detail=True, methods=['post'])
+    def planit(self, request, pk=None):
+        trip = Trip.objects.get(pk=pk)
+        plans = trip.plans.order_by('?').all()
+        duration = trip.duration
+        plans_per_day = int(len(plans) / duration)
+        for i, day in enumerate(trip.days.all()):
+            start = i * plans_per_day
+            end = i * plans_per_day + plans_per_day
+            for j, plan in enumerate(plans[start:end]):
+                plan.day = day
+                plan.order = j + 1
+                plan.save()
+
+        serializer = TripSerializer(trip)
+        return Response(serializer.data)
 
 
 class PlanViewSet(viewsets.ModelViewSet):
